@@ -26,7 +26,15 @@ begin
 	clear  <= not clr;  -- treat as active high
 	preset <= '1';      -- active low
 	
-	comp : dffe port map ( d, e, clk, clear, preset, q );
+	comp : dffe port map ( 
+
+		d    => d,
+		clk  => clk,
+		clrn => clear,
+		prn  => preset,
+		ena  => e,
+		q    => q
+	);
 
 end architecture;
 

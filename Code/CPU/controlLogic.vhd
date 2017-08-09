@@ -8,6 +8,7 @@ use work.components_pk.all;
 --  . Hardcoded for the BE_CPU microcode encoding
 --  . Hardcoded for 5 micro instructions per instruction
 
+
 entity controlLogic is
 
 	port (
