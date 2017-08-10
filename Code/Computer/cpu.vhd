@@ -7,7 +7,6 @@ entity cpu is
 
 	port (
 		clk, reset   : in  std_logic;
-		memSize      : in integer;
 		outputRegOut : out std_logic_vector( N - 1 downto 0 );
 		haltClk      : out std_logic
 	);

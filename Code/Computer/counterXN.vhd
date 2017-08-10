@@ -22,7 +22,7 @@ end entity;
 architecture ac of counterXN is
 
 	signal doSomething : std_logic;
-	signal reg_in, reg_out : std_logic_vector( N - 1 downto 0 );
+	signal reg_in, reg_out, incr_out : std_logic_vector( N - 1 downto 0 );
 
 begin
 

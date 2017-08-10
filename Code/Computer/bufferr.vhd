@@ -5,7 +5,7 @@ library altera;
 use altera.altera_primitives_components.tri;
 
 
-entity buffer is
+entity bufferr is
 
 	port (
 		d, oe : in  std_logic;
@@ -15,7 +15,7 @@ entity buffer is
 end entity;
 
 
-architecture ac of buffer is
+architecture ac of bufferr is
 
 begin
 

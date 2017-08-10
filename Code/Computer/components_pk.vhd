@@ -13,7 +13,7 @@ package components_pk is
 
 	--- General ---
 
-	component buffer is
+	component bufferr is
 		port (
 			d, oe : in  std_logic;
 			q     : out std_logic
@@ -90,7 +90,6 @@ package components_pk is
 		generic (
 			X : integer
 		);
-
 		port (
 			d, addr : in  std_logic_vector( N - 1 downto 0 );
 			load    : in  std_logic;
@@ -104,7 +103,6 @@ package components_pk is
 		generic (
 			X : integer
 		);
-
 		port (
 			d          : in  std_logic_vector( N - 1 downto 0 );
 			clk        : in  std_logic;
@@ -121,7 +119,6 @@ package components_pk is
 		generic (
 			X : integer
 		);
-
 		port (
 			databus    : inout std_logic_vector( N - 1 downto 0 );
 			clk        : in    std_logic;
@@ -129,6 +126,16 @@ package components_pk is
 			loadData   : in    std_logic;
 			clrAddr    : in    std_logic;
 			out_enable : in    std_logic
+		);
+	end component;
+
+
+	component microcode is
+		port (
+			addr_one : in  std_logic_vector( N - 1 downto 0 );
+			addr_two : in  std_logic_vector( N - 1 downto 0 );
+			q_one    : out std_logic_vector( 7 downto 0 );
+			q_two    : out std_logic_vector( 7 downto 0 )
 		);
 	end component;
 
@@ -188,7 +195,6 @@ package components_pk is
 		generic (
 			X : integer
 		);
-
 		port (
 			d : in  std_logic_vector( N - 1 downto 0 );
 			q : out std_logic_vector( N - 1 downto 0 )
@@ -200,7 +206,6 @@ package components_pk is
 		generic (
 			X : integer
 		);
-
 		port (
 			d              : in  std_logic_vector( N - 1 downto 0 );
 			load, clk, clr : in  std_logic;
@@ -250,7 +255,6 @@ package components_pk is
 	component cpu is
 		port (
 			clk, reset   : in  std_logic;
-			memSize      : in integer;
 			outputRegOut : out std_logic_vector( N - 1 downto 0 );
 			haltClk      : out std_logic
 		);

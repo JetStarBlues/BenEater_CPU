@@ -72,7 +72,7 @@ begin
 	microcodeAddr_upper <= ( 
 
 		7          => '0',
-		6 downto 3 => baseAddr,
+		6 downto 3 => baseAddr,  -- 2008+ VHDL
 		2 downto 0 => step
 	);
 

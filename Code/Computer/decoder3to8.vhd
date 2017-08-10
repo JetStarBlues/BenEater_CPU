@@ -19,7 +19,7 @@ architecture ac of decoder3to8 is
 	
 begin
 
-	nd = not d;
+	nd <= not d;
 	
 	q(7) <=  d(2) and  d(1) and  d(0);
 	q(6) <=  d(2) and  d(1) and nd(0);

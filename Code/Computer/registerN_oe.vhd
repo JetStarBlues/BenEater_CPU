@@ -25,7 +25,7 @@ begin
 
 	comp0 : registerN port map ( databus, load, clk, clr, q0 );
 
-	comp1 : buffer port map ( q0, out_enable, databus );
+	comp1 : bufferN port map ( q0, out_enable, databus );
 
 
 end architecture;

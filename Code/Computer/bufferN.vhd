@@ -1,9 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use.work.components_pk.all;
+use work.components_pk.all;
 
 
-entity buffer is
+entity bufferN is
 
 	port (
 		d  : in  std_logic_vector( N - 1 downto 0 );
@@ -14,13 +14,13 @@ entity buffer is
 end entity;
 
 
-architecture ac of buffer is
+architecture ac of bufferN is
 
 begin
 
 	gen : for i in N - 1 downto 0 generate
 
-		comp : buffer port map ( d(i), en, q(i) );
+		comp : bufferr port map ( d(i), oe, q(i) );
 
 	end generate;
 

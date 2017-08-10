@@ -118,7 +118,6 @@ def getMicroHex ():
 code = getMicroHex()
 
 for b in code[0]:
-	print( b )
+	print( ', '.join( b ) )
 for b in code[1]:
-	print( b )
-
+	print( ', '.join( b ) )

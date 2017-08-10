@@ -1,10 +1,13 @@
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 use work.components_pk.all;
 
 
 -- Code from Doulos,
 --  https://www.doulos.com/knowhow/vhdl_designers_guide/models/simple_ram_model/
+--  "[S]ynthesises into internal block memories in the majority of FPGA architectures"
+
 
 entity arrayMemoryXN is
 

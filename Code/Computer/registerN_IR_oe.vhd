@@ -26,20 +26,22 @@ architecture ac of registerN_IR_oe is
 begin
 
 	-- Upper nibble, instruction
-	q <= ( 
-		7 downto 4 => q0,
+	q <= (
+
+		7 downto 4 => q0( 7 downto 4 ),  -- 2008+ VHDL
 		others     => '0' 
 	);
 
 	-- Lower nibble, immediate
-	q1 <= ( 
-		3 downto 0 => q0,
+	q1 <= (
+
+		3 downto 0 => q0( 3 downto 0 ),
 		others     => '0' 
 	);
 
 	comp0 : registerN port map ( databus, load, clk, clr, q0 );
 
-	comp1 : buffer port map ( q1, out_enable, databus );
+	comp1 : bufferN port map ( q1, out_enable, databus );
 
 
 end architecture;
