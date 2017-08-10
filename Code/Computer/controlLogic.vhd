@@ -3,9 +3,9 @@ use ieee.std_logic_1164.all;
 use work.components_pk.all;
 
 
--- Not generic, specific to Ben Eater CPU. For example, its
---  . Hardcoded for the BE_CPU instruction set architecture
---  . Hardcoded for the BE_CPU microcode encoding
+-- Not generic, specific to Ben Eater Computer. For example, it is
+--  . Hardcoded for the BE_Computer instruction set architecture
+--  . Hardcoded for the BE_Computer microcode encoding
 --  . Hardcoded for 5 micro instructions per instruction
 
 
@@ -41,17 +41,18 @@ architecture ac of controlLogic is
 	signal clock : std_logic;
 
 	signal zero : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
-	signal counterOut : std_logic_vector( N - 1 downto 0 );
-	signal count5 : std_logic;  -- longest instruction has five micro instructions
-	                            --  See https://youtu.be/X7rCxs1ppyY?t=7m40s
-	                            --   Note: longest instruction shortened from 6 to 5 later in video
+
+	-- longest instruction has five micro instructions
+	--  See https://youtu.be/X7rCxs1ppyY?t=7m40s
+	--  Note, longest instruction shortened from 6 to 5 later in video
+	signal counted5 : std_logic;
 	signal resetCounter : std_logic;
-
+	signal stepCounterOut : std_logic_vector( N - 1 downto 0 );
 	signal step : std_logic_vector( 2 downto 0 );
-	signal stepDec : std_logic_vector( 7 downto 0 );
-	signal offset : std_logic_vector( 3 downto 0 );
+	signal stepDecoder : std_logic_vector( 7 downto 0 );
 
-	signal controlBits_upperByte_addr, controlBits_lowerByte_addr : std_logic_vector( N - 1 downto 0 );
+	signal baseAddr : std_logic_vector( 3 downto 0 );
+	signal microcodeAddr_upper, microcodeAddr_lower : std_logic_vector( N - 1 downto 0 );
 	signal controlBits_upperByte, controlBits_lowerByte : std_logic_vector( 7 downto 0 );
 
 begin
@@ -59,29 +60,27 @@ begin
 	clock <= not clk;  -- inverted. Explanation at https://youtu.be/X7rCxs1ppyY?t=3m47s
 	                   --  something about this leading main clock
 
-	resetCounter <= clr or count5;
+	resetCounter <= clr or counted5;
 
-	count5 <= stepDec(5);  -- reset counter when step == 5
-	                        --  Even though zero indexed count, we don't stop at 4 because
-	                        --  clear is asynchronous/immediate
+	counted5 <= stepDecoder(5);  -- reset counter when step == 5
+	                             --  Even though zero indexed count, we don't stop at 4 because
+	                             --  clear is asynchronous/immediate
 
-	offset <= instruction( 7 downto 4 );
-	step <= counterOut( 2 downto 0 );
+	baseAddr <= instruction( 7 downto 4 );
+	step <= stepCounterOut( 2 downto 0 );
 
-	controlBits_upperByte_addr <= ( 
+	microcodeAddr_upper <= ( 
 
 		7          => '0',
-		6 downto 3 => offset,
-		2 downto 0 => step,
-		others     => '0'
+		6 downto 3 => baseAddr,
+		2 downto 0 => step
 	);
 
-	controlBits_lowerByte_addr <= (  -- Offset by 128 in ROM, see https://youtu.be/JUVt_KYAp-I?t=17m50s
+	microcodeAddr_lower <= (  -- Offset by 128 in ROM, see https://youtu.be/JUVt_KYAp-I?t=17m50s
 
 		7          => '1',
-		6 downto 3 => offset,
-		2 downto 0 => step,
-		others     => '0'
+		6 downto 3 => baseAddr,
+		2 downto 0 => step
 	);
 
 	halt                     <= controlBits_upperByte(7);
@@ -102,21 +101,22 @@ begin
 	programCounter_jump      <= controlBits_lowerByte(1);
 
 
-	-- microcode ROM
-	comp : microcode port map (
+	-- Microcode ROM
+	comp0 : microcode port map (
 
-		controlBits_upperByte_addr,
-		controlBits_lowerByte_addr,
+		microcodeAddr_upper,
+		microcodeAddr_lower,
 		controlBits_upperByte,
 		controlBits_lowerByte
 	);
 	
-	-- step counter
-	comp : counterXN    
+	-- Step counter
+	comp1 : counterXN    
 	           generic map ( 3 )
-	           port map    ( zero, '0', clock, resetCounter, '1', counterOut );
+	           port map    ( zero, '0', clock, resetCounter, '1', stepCounterOut );
 
-	comp : decoder3to8 port map ( step, stepDec );
+	-- Step decoder
+	comp2 : decoder3to8 port map ( step, stepDecoder );
 
 end architecture;
 

@@ -27,12 +27,12 @@ architecture ac of arrayMemoryXN is
 	type ram_type is array( X - 1 downto 0 ) of std_logic_vector( N - 1 downto 0 );
 	signal ram : ram_type;
 
-	--signal read_addr : std_logic_vector( N - 1 downto 0 );
+	signal read_addr : std_logic_vector( N - 1 downto 0 );
 
 begin
 
-	--q <= ram( to_integer( unsigned( read_addr ) ) );
-	q <= ram( to_integer( unsigned( addr ) ) );
+	q <= ram( to_integer( unsigned( read_addr ) ) );
+	--q <= ram( to_integer( unsigned( addr ) ) );
 
 	process ( clk )
 	begin
@@ -45,7 +45,7 @@ begin
 
 			end if;
 
-			--read_addr <= addr;
+			read_addr <= addr;
 
 		end if;
 

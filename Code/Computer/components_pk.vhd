@@ -215,8 +215,7 @@ package components_pk is
 			databus        : inout std_logic_vector( N - 1 downto 0 );
 			load, clk, clr : in    std_logic;
 			increment      : in    std_logic;
-			out_enable     : in    std_logic;
-			q              : out std_logic_vector( N - 1 downto 0 )
+			out_enable     : in    std_logic
 		);
 	end component;
 
@@ -251,7 +250,9 @@ package components_pk is
 	component cpu is
 		port (
 			clk, reset   : in  std_logic;
-			outputRegOut : out std_logic_vector( N - 1 downto 0 )
+			memSize      : in integer;
+			outputRegOut : out std_logic_vector( N - 1 downto 0 );
+			haltClk      : out std_logic
 		);
 	end component;
 

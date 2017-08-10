@@ -23,18 +23,15 @@ end entity;
 
 architecture ac of memoryXN_oe is
 
-	signal d, q, q0 : std_logic_vector( N - 1 downto 0 );
+	signal q : std_logic_vector( N - 1 downto 0 );
 
 begin
 
-	d <= databus;
-	databus <= q;
-
 	comp0 : memoryXN
 	           generic map ( X )
-	           port map    ( d, clk, loadAddr, loadData, clrAddr, q0 );
+	           port map    ( databus, clk, loadAddr, loadData, clrAddr, q );
 
-	comp1 : bufferN port map ( q0, out_enable, q );
+	comp1 : bufferN port map ( q, out_enable, databus );
 
 end architecture;
 
@@ -43,3 +40,4 @@ end architecture;
 --   https://youtu.be/uYXwCBo40iA
 --   https://youtu.be/KNve2LCcSRc
 --   https://youtu.be/5rl1tEFXKt0
+--   https://github.com/kyllikki/eda-designs/blob/master/SAP-BE/sap-be.pdf

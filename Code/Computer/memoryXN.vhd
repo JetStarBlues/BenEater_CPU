@@ -27,11 +27,13 @@ architecture ac of memoryXN is
 
 begin
 
-	comp0 : registerN port map ( d, loadAddr, clk, clrAddr, address );  -- memory address register
+	-- Memory address register
+	comp0 : registerN port map ( d, loadAddr, clk, clrAddr, address );
 
+	-- Memory
 	comp1 : arrayMemoryXN
 	           generic map ( X )
-	           port map    ( d, address, loadData, clk, q );  -- memory
+	           port map    ( d, address, loadData, clk, q );
 
 end architecture;
 
@@ -40,3 +42,4 @@ end architecture;
 --   https://youtu.be/uYXwCBo40iA
 --   https://youtu.be/KNve2LCcSRc
 --   https://youtu.be/5rl1tEFXKt0
+--   https://github.com/kyllikki/eda-designs/blob/master/SAP-BE/sap-be.pdf

@@ -3,7 +3,11 @@ use ieee.std_logic_1164.all;
 use work.components_pk.all;
 
 
-entity registerN_oe is
+-- Instruction register only dumps lower nibble onto bus
+--  IIIIDDDD encoding of Ben Eater computer
+
+
+entity registerN_IR_oe is
 
 	port (
 		databus        : inout std_logic_vector( N - 1 downto 0 );
@@ -15,17 +19,27 @@ entity registerN_oe is
 end entity;
 
 
-architecture ac of registerN_oe is
+architecture ac of registerN_IR_oe is
 
-	signal q0 : std_logic_vector( N - 1 downto 0 );
+	signal q0, q1 : std_logic_vector( N - 1 downto 0 );
 
 begin
 
-	q <= q0;
+	-- Upper nibble, instruction
+	q <= ( 
+		7 downto 4 => q0,
+		others     => '0' 
+	);
+
+	-- Lower nibble, immediate
+	q1 <= ( 
+		3 downto 0 => q0,
+		others     => '0' 
+	);
 
 	comp0 : registerN port map ( databus, load, clk, clr, q0 );
 
-	comp1 : buffer port map ( q0, out_enable, databus );
+	comp1 : buffer port map ( q1, out_enable, databus );
 
 
 end architecture;

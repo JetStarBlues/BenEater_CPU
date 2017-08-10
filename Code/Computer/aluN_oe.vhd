@@ -18,15 +18,13 @@ end entity;
 
 architecture ac of aluN_oe is
 
-	signal q, q0 : std_logic_vector( N - 1 downto 0 );
+	signal q : std_logic_vector( N - 1 downto 0 );
 
 begin
 
-	databus <= q;
+	comp0 : aluN port map ( da, db, subtract, q, cOut );
 
-	comp0 : aluN port map ( da, db, subtract, q0, cOut );
-
-	comp1 : bufferN port map ( q0, out_enable, q );
+	comp1 : bufferN port map ( q, out_enable, databus );
 
 end architecture;
 

@@ -1,0 +1,200 @@
+Block diagram (control signals)
+
+  See https://youtu.be/FCscQGBIL-Y?t=5m25s
+
+
+
+                                ||            --------
+                                ||   loNib   |        | <- CO
+                                || <-------> |   PC   | <- J
+                                ||           |        | <- CE
+                                ||            --------
+                                ||
+                                ||
+                                ||
+            --------            ||            --------
+     MI -> |        |   loNib   ||           |        | <- AI
+           |  MAR   | <-------- || <-------> |   A    | <- AO
+           |        |           ||           |        |
+            --------            ||            --------
+               |                ||               |
+               | loNib          ||               |
+               v                ||               v
+            --------            ||            --------
+     RI -> |        |           ||           |        | <- ΣO
+     R0 -> |  RAM   | <-------> || <-------> |  ALU   | <- SU
+           |        |           ||           |        | -> CY
+            --------            ||            --------
+                                ||               ^
+                                ||               |
+                                ||               |
+            --------            ||            --------
+     II -> |        | <-------- ||           |        | <- BI
+     IO -> |   IR   |           || --------> |   B    | // <- BO
+           |        | --------> ||           |        |
+            --------    loNib   ||            --------
+               |                ||
+               | hiNib          ||
+               v                ||
+          INSTR DECODER         ||            --------
+                                ||           |        | <- OI
+                                || --------> |  OUT   |
+                                ||           |        |
+                                ||            --------
+                                ||                |
+                                                  |
+                                                  v
+                                               DISPLAY
+
+
+Program examples
+
+	OUT = M[15] + M[14] - M[13]
+
+		assembly
+	            
+		LDA 15  
+		ADD 14  
+		SUB 13  
+		OUT     
+		HLT     
+
+	    binary
+	    instr#  immediate
+	    
+	    0001    1111
+	    0010    1110
+	    0011    1101
+	    1110    0000
+	    1111    0000
+
+
+	OUT = multiples of 3
+
+		LDI 3
+		STA 15  // M[15] = 3
+		LDI 0   // A = 0
+		ADD 15  // A += M[15]
+		OUT
+		JMP 3   // loop indefinitely
+
+
+
+Command description
+
+	8 bit instruction code -> upper four bits correspond to instruction type
+	                       -> lower four bits correspond to X
+
+
+	NOP    -  ...
+	LDA X  -  A = memory[X]
+	STA X  -  memory[X] = A
+	LDI X  -  A = X
+	ADD X  -  B = memory[X]; A = A op B
+	SUB X  -  ...
+	JMP X  -  PC = X
+
+	OUT    -  O = A
+	HLT    -  ...
+
+Registers
+	
+	- A
+	- B
+	- instruction
+	- output
+	- memory_address
+
+Step
+	https://youtu.be/dHWFpkGsxOs?t=29m
+	
+	Lasts one clock cycle
+
+	(Versus PC which is incremented after fetch... so its interval duration is
+	 variable at clock cycle duration * nSteps in instruction)
+
+CPU control signals
+
+	Who's putting / getting what from data bus ?
+	
+	HLT - halt
+	MI  - memory_address_reg in
+	RI  - memory(RAM) in
+	R0  - memory(RAM) out
+	IO  - instruction_reg out
+	II  - instruction_reg in
+	AI  - A_reg in
+	AO  - A_reg out
+
+	ΣO - ALU out -> A_reg op B_reg out  ??
+	SU - If set, ALU subtracts. Else, ALU adds
+	BI - B_reg in
+	OI - output_reg in  // display
+	CE - program_counter enable -> increment counter
+	CO - program_counter out
+	J  - jump
+	?
+
+	JC - Sets J only when carry bit is set??
+
+Instructions
+
+	Name     Instruction   Step    HLT MI RI RO IO II AI AO    ΣO SU BI OI CE CO J  ?
+
+	Fetch    xxxx          000     0   1  0  0  0  0  0  0     0  0  0  0  0  1  0  0
+	         xxxx          001     0   0  0  1  0  1  0  0     0  0  0  0  1  0  0  0
+
+	LDA      0001          010     0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
+	         0001          011     0   0  0  1  0  0  1  0     0  0  0  0  0  0  0  0
+	         0001          100     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+
+	ADD      0010          010     0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
+	         0010          011     0   0  0  1  0  0  0  0     0  0  1  0  0  0  0  0
+	         0010          100     0   0  0  0  0  0  1  0     1  0  0  0  0  0  0  0
+
+	OUT      1110          010     0   0  0  0  0  0  0  1     0  0  0  1  0  0  0  0
+	         1110          011     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1110          100     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+
+	HLT      1111          010     1   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1111          011     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1111          100     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+
+	Smthn    xxxx          010     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         xxxx          011     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+
+
+Microcode
+
+	Each instruction can have up to 8 steps
+
+	Stored in EEPROM
+
+	HLT - 0b1000000000000000
+	 MI - 0b0100000000000000
+	etc..
+
+
+	Name    addr  byte1         byte2         byte3         byte4         byte5         byte6         byte7         byte8
+  
+	NOP     0     CO|MI         RO|II|CE      x             x             x             x             x             x
+	LDA     1     CO|MI         RO|II|CE      IO|MI         RO|AI         0             0             0             0
+	STA     ..    CO|MI         RO|II|CE      IO|MI         AO|RI         0             0             0             0
+	LDI     ..    CO|MI         RO|II|CE      IO|AI         0             0             0             0             0
+	ADD     ..    CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI         0             0             0
+	SUB     ..    CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|SU      0             0             0
+	JMP     ..    CO|MI         RO|II|CE      IO|J          0             0             0             0             0
+	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	OUT     14    CO|MI         RO|II|CE      AO|OI         0             0             0             0             0
+	HLT     15    CO|MI         RO|II|CE      HLT           0             0             0             0             0
+
+
+	TODO... check final instruction order he uses... whether reorders to logical? Otherwise might not be binary compatible
+
+

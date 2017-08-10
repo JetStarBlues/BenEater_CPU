@@ -7,7 +7,9 @@ entity cpu is
 
 	port (
 		clk, reset   : in  std_logic;
-		outputRegOut : out std_logic_vector( N - 1 downto 0 )
+		memSize      : in integer;
+		outputRegOut : out std_logic_vector( N - 1 downto 0 );
+		haltClk      : out std_logic
 	);
 
 end entity;
@@ -25,21 +27,21 @@ architecture ac of cpu is
 	signal ARegOut, BRegOut : std_logic_vector( N - 1 downto 0 );
 
 	-- Control
-	halt                     : std_logic;
-	memoryAddressReg_in      : std_logic;
-	memory_in                : std_logic;
-	memory_out               : std_logic;
-	instructionReg_out       : std_logic;
-	instructionReg_in        : std_logic;
-	ARegister_in             : std_logic;
-	ARegister_out            : std_logic;
-	ALU_out                  : std_logic;
-	ALU_subtract             : std_logic;
-	BRegister_in             : std_logic;
-	outputRegister_in        : std_logic;
-	programCounter_increment : std_logic;
-	programCounter_out       : std_logic;
-	programCounter_jump      : std_logic;
+	signal halt                     : std_logic;
+	signal memoryAddressReg_in      : std_logic;
+	signal memory_in                : std_logic;
+	signal memory_out               : std_logic;
+	signal instructionReg_out       : std_logic;
+	signal instructionReg_in        : std_logic;
+	signal ARegister_in             : std_logic;
+	signal ARegister_out            : std_logic;
+	signal ALU_out                  : std_logic;
+	signal ALU_subtract             : std_logic;
+	signal BRegister_in             : std_logic;
+	signal outputRegister_in        : std_logic;
+	signal programCounter_increment : std_logic;
+	signal programCounter_out       : std_logic;
+	signal programCounter_jump      : std_logic;
 
 begin
 
@@ -89,9 +91,7 @@ begin
 		clk,
 		reset,
 		programCounter_increment,
-		programCounter_out,
-		open
-
+		programCounter_out
 	);
 
 	comp_instructionReg : registerN_oe port map (
@@ -143,6 +143,9 @@ begin
 		ALU_out,
 		carryBit
 	);
+
+
+	haltClk <= halt;  --
 
 end architecture;
 
