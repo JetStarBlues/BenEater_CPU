@@ -32,8 +32,8 @@ begin
 
 	-- Memory
 	comp1 : arrayMemoryXN
-	           generic map ( X )
-	           port map    ( d, address, loadData, clk, q );
+	        	generic map ( X )
+	        	port map    ( d, address, loadData, clk, q );
 
 end architecture;
 

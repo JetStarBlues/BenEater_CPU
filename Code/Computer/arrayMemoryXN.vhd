@@ -27,7 +27,7 @@ end entity;
 
 architecture ac of arrayMemoryXN is
 
-	type ram_type is array( X - 1 downto 0 ) of std_logic_vector( N - 1 downto 0 );
+	type ram_type is array( 0 to X - 1 ) of std_logic_vector( N - 1 downto 0 );
 	signal ram : ram_type;
 
 	signal read_addr : std_logic_vector( N - 1 downto 0 );

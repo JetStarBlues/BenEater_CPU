@@ -5,7 +5,7 @@ use work.components_pk.all;
 
 entity muxN2to1 is
 
-	port(
+	port (
 		d1, d0 : in std_logic_vector( N - 1 downto 0 );
 		s      : in std_logic;
 		q      : out std_logic_vector( N - 1 downto 0 )

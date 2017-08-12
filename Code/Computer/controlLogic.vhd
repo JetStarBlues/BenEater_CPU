@@ -13,8 +13,8 @@ entity controlLogic is
 
 	port (
 		instruction : in std_logic_vector( N - 1 downto 0 );
-		clk, clr : in std_logic;
-		carryBit : in std_logic;
+		clk, clr    : in std_logic;
+		carryBit    : in std_logic;
 
 		halt                     : out std_logic;
 		memoryAddressReg_in      : out std_logic;
