@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use work.components_pk.all;
 
 
-entity programMemoryX is
+entity programMemoryXN is
 
 	generic (
 		X : integer
@@ -18,7 +18,7 @@ entity programMemoryX is
 end entity;
 
 
-architecture ac of programMemoryX is
+architecture ac of programMemoryXN is
 
 	type rom_type is array( 0 to X - 1 ) of std_logic_vector( N - 1 downto 0 );
 	

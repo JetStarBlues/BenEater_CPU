@@ -8,6 +8,8 @@ entity computer is
 
 	port (
 		clock, reset : in  std_logic;
+
+		outputReady  : out std_logic;
 		outputRegOut : out std_logic_vector( N - 1 downto 0 )
 	);
 
@@ -17,11 +19,11 @@ end entity;
 architecture ac of computer is
 
 	-- CPU
+	signal databus : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
+
 	signal cpuClock : std_logic;
 
 	signal hold : std_logic := '1';  -- init as high to facilitate memory initialization
-
-	signal databus : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
 
 	signal memoryAddressRegister_in : std_logic;
 	signal memory_in, memory_out : std_logic;
@@ -51,12 +53,14 @@ begin
 
 	comp_cpu : cpu port map (
 
+		databus,
+
 		cpuClock,
 		reset,
 		hold,
-		outputRegOut,
 
-		databus,
+		outputReady,
+		outputRegOut,
 
 		memoryAddressRegister_in,
 		memory_in, memory_out
@@ -77,7 +81,7 @@ begin
 		memory_out
 	);
 
-	comp_programMemory : programMemoryX
+	comp_programMemory : programMemoryXN
 	generic map (
 
 		programMemorySize
@@ -89,27 +93,27 @@ begin
 	);
 
 
-	comp0 : bufferN port map (
+	comp_st0 : bufferN port map (
 
-		override,
+		override,                  -- startup control
 		memoryNotReady,
 		databus
 	);
-	comp1 : mux2to1 port map (
+	comp_st1 : mux2to1 port map (
 
 		clock,                     -- startup control
 		cpuClock,                  -- runtime control
 		memoryNotReady,
 		memClk
 	);
-	comp2 : mux2to1 port map (
+	comp_st2 : mux2to1 port map (
 
 		memLda,                    -- startup control
 		memoryAddressRegister_in,  -- runtime control
 		memoryNotReady,
 		memLoadAddr
 	);
-	comp3 : mux2to1 port map (
+	comp_st3 : mux2to1 port map (
 
 		memLdd,                    -- startup control
 		memory_in,                 -- runtime control
@@ -117,7 +121,8 @@ begin
 		memLoadData
 	);
 
-	-- The process below could also be specified at the component level
+	-- The process below initializes main memory
+	--  The process could also be specified at the component level
 	--  using flip flops, multiplexers etc. but I'm feeling lazy and
 	--  will instead let the synthesis tool come up with whatever
 	--  circuitry it wants to accomplish the task.

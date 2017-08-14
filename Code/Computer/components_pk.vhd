@@ -158,7 +158,7 @@ package components_pk is
 	end component;
 
 
-	component programMemoryX is
+	component programMemoryXN is
 		generic (
 			X : integer
 		);
@@ -283,11 +283,13 @@ package components_pk is
 
 	component cpu is
 		port (
-			clock, reset      : in std_logic;
-			hold              : in std_logic;  -- yield databus control to external device
-			outputRegisterOut : out std_logic_vector( N - 1 downto 0 );
-			
 			databus : inout std_logic_vector( N - 1 downto 0 );
+			
+			clock, reset : in std_logic;
+			hold         : in std_logic;  -- yield databus control to external device
+			
+			outputUpdated              : out std_logic;
+			outputRegisterOut          : out std_logic_vector( N - 1 downto 0 );
 
 			c_memoryAddressRegister_in : out std_logic;
 			c_memory_in                : out std_logic;
@@ -301,6 +303,7 @@ package components_pk is
 	component computer is
 		port (
 			clock, reset : in  std_logic;
+			outputReady  : out std_logic;
 			outputRegOut : out std_logic_vector( N - 1 downto 0 )
 		);
 	end component;

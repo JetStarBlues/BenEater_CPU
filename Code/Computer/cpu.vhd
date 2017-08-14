@@ -1,17 +1,18 @@
 library ieee;
 use ieee.std_logic_1164.all;
---use ieee.numeric_std.all;
 use work.components_pk.all;
 
 
 entity cpu is
 
 	port (
-		clock, reset      : in std_logic;
-		hold              : in std_logic;  -- yield databus control to external device
-		outputRegisterOut : out std_logic_vector( N - 1 downto 0 );
-		
 		databus : inout std_logic_vector( N - 1 downto 0 );
+		
+		clock, reset : in std_logic;
+		hold         : in std_logic;  -- yield databus control to external device
+		
+		outputUpdated              : out std_logic;
+		outputRegisterOut          : out std_logic_vector( N - 1 downto 0 );
 
 		c_memoryAddressRegister_in : out std_logic;
 		c_memory_in                : out std_logic;
@@ -23,9 +24,8 @@ end entity;
 
 architecture ac of cpu is
 
-	-- Internal clock
-	signal clk : std_logic;
-	signal clk2 : std_logic;
+	-- Internal clocks
+	signal clk, clk2 : std_logic;
 
 	-- Databus
 	signal programCounter_oe      : std_logic;
@@ -66,6 +66,8 @@ begin
 	instructionRegister_oe <= c_instructionRegister_out and not hold;
 	ARegister_oe           <= c_ARegister_out           and not hold;
 	ALU_oe                 <= c_ALU_out                 and not hold;
+
+	outputUpdated <= c_outputRegister_in;  -- use to indicate new output
 
 
 	comp_divClock : divFreqBy2 port map (
