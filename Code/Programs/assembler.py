@@ -121,4 +121,4 @@ def asm_to_bin( inputFile, outputFile ):
 
 
 # Temp
-asm_to_bin( 'Source/multiples3.asm', 'Binaries/multiples3.bin' )
+asm_to_bin( 'Source/arithmeticTest.asm', 'Binaries/arithmeticTest.bin' )

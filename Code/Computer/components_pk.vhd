@@ -56,6 +56,13 @@ package components_pk is
 		);
 	end component;
 
+	component divFreqBy2 is
+		port (
+			d : in  std_logic;
+			q : out std_logic
+		);
+	end component;
+
 
 	--- Memory ---
 
@@ -275,10 +282,6 @@ package components_pk is
 
 
 	component cpu is
-		--port (
-		--	clock, reset : in  std_logic;
-		--	outputRegOut : out std_logic_vector( N - 1 downto 0 )
-		--);
 		port (
 			clock, reset      : in std_logic;
 			hold              : in std_logic;  -- yield databus control to external device
@@ -293,13 +296,6 @@ package components_pk is
 	end component;
 
 
-	--  component cpu_usingIPMemory is
-	--  	port (
-	--  		...
-	--  	);
-	--  end component;
-
-
 	--- Computer ---
 
 	component computer is
@@ -311,3 +307,6 @@ package components_pk is
 
 
 end package;
+
+
+--

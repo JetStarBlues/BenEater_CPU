@@ -49,7 +49,7 @@ architecture ac of controlLogic is
 	signal resetCounter : std_logic;
 	signal stepCounterOut : std_logic_vector( N - 1 downto 0 );
 	signal step : std_logic_vector( 2 downto 0 );
-	signal stepDecoder : std_logic_vector( 7 downto 0 );
+	signal stepDecoded : std_logic_vector( 7 downto 0 );
 
 	signal baseAddr : std_logic_vector( 3 downto 0 );
 	signal microcodeAddr_upper, microcodeAddr_lower : std_logic_vector( N - 1 downto 0 );
@@ -62,7 +62,7 @@ begin
 
 	resetCounter <= clr or counted5;
 
-	counted5 <= stepDecoder(5);  -- reset counter when step == 5
+	counted5 <= stepDecoded(5);  -- reset counter when step == 5
 	                             --  Even though zero indexed count, we don't stop at 4 because
 	                             --  clear is asynchronous/immediate
 
@@ -116,7 +116,7 @@ begin
 	           port map    ( zero, '0', clock, resetCounter, '1', stepCounterOut );
 
 	-- Step decoder
-	comp2 : decoder3to8 port map ( step, stepDecoder );
+	comp2 : decoder3to8 port map ( step, stepDecoded );
 
 end architecture;
 

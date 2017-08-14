@@ -1,4 +1,5 @@
-// OUT = multiples of 3
+// Description:
+//  OUT = multiples of 3
 
 LDI 3
 STA 15  // M[15] = 3

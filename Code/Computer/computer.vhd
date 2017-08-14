@@ -16,33 +16,38 @@ end entity;
 
 architecture ac of computer is
 
+	-- CPU
 	signal cpuClock : std_logic;
 
-	signal hold  : std_logic := '1';
+	signal hold : std_logic := '1';  -- init as high to facilitate memory initialization
 
-	signal databus : std_logic_vector( N - 1 downto 0 );
+	signal databus : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
 
 	signal memoryAddressRegister_in : std_logic;
 	signal memory_in, memory_out : std_logic;
 
 
 	-- Memory initialization helpers
-	signal memoryReady : std_logic := '0';
+	signal memoryNotReady : std_logic := '1';
+
+	signal override : std_logic_vector( N - 1 downto 0 );
 
 	signal memClk : std_logic;
 	signal memLoadAddr, memLoadData : std_logic;
 	signal memLda, memLdd : std_logic;
 
-	type states is ( sLoadAddr, sHoldAddr, sLoadData, sIncrementAddr );
+	type states is ( sLoadAddr, sValid, sLoadData, sIncrementAddr );
 	signal state : states := sLoadAddr;
+	signal nxtState : states := sLoadData;
 
-	signal programLineNo : integer range 0 to programMemorySize - 1 := 0;
+	signal programLineNo : integer range 0 to programMemorySize := 0;
 	signal pMemAddr : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
 	signal pMemData : std_logic_vector( N - 1 downto 0 );
 
 begin
 
-	cpuClock <= '0' when memoryReady = '0' else clock;  -- rewrite as mux component
+	cpuClock <= '0' when memoryNotReady = '1' else clock;  -- rewrite as mux component
+
 
 	comp_cpu : cpu port map (
 
@@ -56,7 +61,6 @@ begin
 		memoryAddressRegister_in,
 		memory_in, memory_out
 	);
-
 
 	comp_mainMemory : memoryXN_oe
 	generic map (
@@ -84,25 +88,32 @@ begin
 		pMemData
 	);
 
-	comp0 : mux2to1 port map (
 
-		cpuClock,                  -- runtime control
-		clock,                     -- startup control
-		memoryReady,
-		memClk
+	comp0 : bufferN port map (
+
+		override,
+		memoryNotReady,
+		databus
 	);
 	comp1 : mux2to1 port map (
 
-		memoryAddressRegister_in,  -- runtime control
-		memLda,                    -- startup control
-		memoryReady,
-		memLoadAddr
+		clock,                     -- startup control
+		cpuClock,                  -- runtime control
+		memoryNotReady,
+		memClk
 	);
 	comp2 : mux2to1 port map (
 
-		memory_in,                 -- runtime control
+		memLda,                    -- startup control
+		memoryAddressRegister_in,  -- runtime control
+		memoryNotReady,
+		memLoadAddr
+	);
+	comp3 : mux2to1 port map (
+
 		memLdd,                    -- startup control
-		memoryReady,
+		memory_in,                 -- runtime control
+		memoryNotReady,
 		memLoadData
 	);
 
@@ -116,37 +127,44 @@ begin
 		if rising_edge( clock ) then
 
 			-- Load programMemory contents onto mainMemory
-			if memoryReady = '0' then
+			if memoryNotReady = '1' then
 
 				case state is
+
+					-- Hold before going to next
+					when sValid =>
+
+						memLda <= '0';
+						memLdd <= '0';
+
+						state <= nxtState;
+
 
 					-- Send address
 					when sLoadAddr =>
 
-						databus <= pMemAddr;
-
 						memLda <= '1';
 						memLdd <= '0';
 
-						--state <= sLoadData;
-						state <= sHoldAddr;
+						override <= pMemAddr;
 
-					when sHoldAddr =>
+						nxtState <= sLoadData;
 
-						memLda <= '0';
-						memLdd <= '0';
+						state <= sValid;
 
-						state <= sLoadData;
 
 					-- Send data
 					when sLoadData =>
 
-						databus <= pMemData;
-
 						memLda <= '0';
 						memLdd <= '1';
 
-						state <= sIncrementAddr;
+						override <= pMemData;
+
+						nxtState <= sIncrementAddr;
+
+						state <= sValid;
+
 
 					-- Increment address
 					when sIncrementAddr =>
@@ -154,21 +172,25 @@ begin
 						memLda <= '0';
 						memLdd <= '0';
 
-						if programLineNo < programMemorySize - 1 then
+
+						if programLineNo < programMemorySize then
 
 							programLineNo <= programLineNo + 1;
 
 							pMemAddr <= std_logic_vector( to_unsigned( programLineNo, N ) );
 
-							state <= sLoadAddr;
+							nxtState <= sLoadAddr;
+
+							state <= sValid;
 
 						else
 
-							memoryReady <= '1';  -- done!
+							memoryNotReady <= '0';  -- done!
 
 							hold <= '0';
 
 						end if;
+
 
 					-- Should never get here
 					when others =>
@@ -184,3 +206,6 @@ begin
 	end process;
 
 end architecture;
+
+
+--
