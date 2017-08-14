@@ -90,7 +90,7 @@ begin
 				-- Send data bits
 				when sDataBits =>
 
-					tx <= txData( bitIndex );
+					tx <= data( bitIndex );
 
 					if clkCount < clksPerBit - 1 then  -- hold for clksPerBit
 

@@ -21,23 +21,17 @@ end entity;
 
 architecture ac of registerN_IR_oe is
 
+	signal zero : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
+
 	signal q0, q1 : std_logic_vector( N - 1 downto 0 );
 
 begin
 
 	-- Upper nibble, instruction
-	q <= (
-
-		7 downto 4 => q0( 7 downto 4 ),  -- 2008+ VHDL
-		others     => '0' 
-	);
+	q <= zero( N - 1 downto 8 ) & q0( 7 downto 4 ) & zero( 3 downto 0 );
 
 	-- Lower nibble, immediate
-	q1 <= (
-
-		3 downto 0 => q0( 3 downto 0 ),
-		others     => '0' 
-	);
+	q1 <= zero( N - 1 downto 4 ) & q0( 3 downto 0 );
 
 	comp0 : registerN port map ( databus, load, clk, clr, q0 );
 

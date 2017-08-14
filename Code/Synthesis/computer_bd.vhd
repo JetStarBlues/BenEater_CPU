@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use work.components_pk.all;
+use work.UART_TX;
 
 
 entity computer_bd is

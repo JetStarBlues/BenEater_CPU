@@ -69,19 +69,9 @@ begin
 	baseAddr <= instruction( 7 downto 4 );
 	step <= stepCounterOut( 2 downto 0 );
 
-	microcodeAddr_upper <= ( 
 
-		7          => '0',
-		6 downto 3 => baseAddr,  -- 2008+ VHDL
-		2 downto 0 => step
-	);
-
-	microcodeAddr_lower <= (  -- Offset by 128 in ROM, see https://youtu.be/JUVt_KYAp-I?t=17m50s
-
-		7          => '1',
-		6 downto 3 => baseAddr,
-		2 downto 0 => step
-	);
+	microcodeAddr_upper <= '0' & baseAddr & step;
+	microcodeAddr_lower <= '1' & baseAddr & step;  -- Offset by 128 in ROM, see https://youtu.be/JUVt_KYAp-I?t=17m50s
 
 	halt                     <= controlBits_upperByte(7);
 	memoryAddressReg_in      <= controlBits_upperByte(6);
