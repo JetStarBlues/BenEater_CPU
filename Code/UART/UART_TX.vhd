@@ -1,4 +1,4 @@
--- Code from
+-- Code based on
 --  https://www.nandland.com/goboard/uart-go-board-project-part2.html
 
 -- Settings
@@ -13,7 +13,7 @@ entity UART_TX is
 
 	generic (
 
-		clksPerBit : integer := 217  -- Frequency of clk / Frequency of communication (baud rate)
+		clksPerBit : integer  -- Frequency of clk / Frequency of communication (baud rate)
 	);
 
 	port (
@@ -30,7 +30,7 @@ end entity;
 
 architecture ac of UART_TX is
 
-	type states is ( sIdle, sStartBit, sDataBits, sStopBit, sCleanup );
+	type states is ( sIdle, sStartBit, sDataBits, sStopBit );
 	signal state : states := sIdle;
 
 	signal clkCount : integer range 0 to clksPerBit - 1 := 0;
@@ -136,18 +136,9 @@ begin
 
 						clkCount <= 0;
 
-						state <= sCleanup;
+						state <= sIdle;
 
 					end if;
-
-				-- Stop here 1 clock
-				when sCleanup =>
-
-					txActive <= '0';
-
-					txDone <= '1';
-
-					state <= sIdle;
 
 				when others =>
 

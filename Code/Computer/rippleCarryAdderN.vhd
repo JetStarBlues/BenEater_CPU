@@ -6,6 +6,7 @@ use work.components_pk.all;
 entity rippleCarryAdderN is
 
 	port (
+
 		a, b : in  std_logic_vector( N - 1 downto 0 );
 		cIn  : in  std_logic;
 		sum  : out std_logic_vector( N - 1 downto 0 );

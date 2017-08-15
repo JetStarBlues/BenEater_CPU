@@ -6,6 +6,7 @@ use work.components_pk.all;
 entity aluN_oe is
 
 	port (
+
 		databus    : inout std_logic_vector( N - 1 downto 0 );
 		da, db     : in    std_logic_vector( N - 1 downto 0 );
 		subtract   : in    std_logic;

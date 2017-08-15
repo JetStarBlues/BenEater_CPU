@@ -10,6 +10,7 @@ use work.components_pk.all;
 entity registerN_IR_oe is
 
 	port (
+
 		databus        : inout std_logic_vector( N - 1 downto 0 );
 		load, clk, clr : in    std_logic;
 		out_enable     : in    std_logic;

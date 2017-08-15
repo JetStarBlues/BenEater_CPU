@@ -8,6 +8,7 @@ use altera.altera_primitives_components.dffe;
 entity dFlipFlop is
 
 	port (
+
 		d, e, clk : in  std_logic;
 		clr       : in  std_logic;
 		q         : out std_logic

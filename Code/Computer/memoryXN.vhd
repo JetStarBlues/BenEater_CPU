@@ -6,10 +6,12 @@ use work.components_pk.all;
 entity memoryXN is
 
 	generic (
+
 		X : integer
 	);
 
 	port (
+
 		d          : in  std_logic_vector( N - 1 downto 0 );
 		clk        : in  std_logic;
 		loadAddr   : in  std_logic;

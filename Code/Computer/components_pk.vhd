@@ -288,7 +288,7 @@ package components_pk is
 			clock, reset : in std_logic;
 			hold         : in std_logic;  -- yield databus control to external device
 			
-			outputUpdated              : out std_logic;
+			outputReady                : out std_logic;
 			outputRegisterOut          : out std_logic_vector( N - 1 downto 0 );
 
 			c_memoryAddressRegister_in : out std_logic;

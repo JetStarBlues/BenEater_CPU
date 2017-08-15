@@ -7,6 +7,7 @@ use work.components_pk.all;
 entity computer is
 
 	port (
+
 		clock, reset : in  std_logic;
 
 		outputReady  : out std_logic;

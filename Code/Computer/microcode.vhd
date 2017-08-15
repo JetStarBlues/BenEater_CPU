@@ -9,6 +9,7 @@ use work.components_pk.all;
 entity microcode is
 
 	port (
+
 		addr_one : in  std_logic_vector( N - 1 downto 0 );
 		addr_two : in  std_logic_vector( N - 1 downto 0 );
 		q_one    : out std_logic_vector( N - 1 downto 0 );

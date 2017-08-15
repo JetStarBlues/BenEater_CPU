@@ -6,6 +6,7 @@ use work.components_pk.all;
 entity decoder3to8 is
 
 	port (
+
 		d : in  std_logic_vector( 2 downto 0 );
 		q : out std_logic_vector( 7 downto 0 )
 	);

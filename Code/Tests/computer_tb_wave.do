@@ -5,6 +5,7 @@ add wave -noupdate /computer_tb/comp_computer/cpuClock
 add wave -noupdate -color Salmon /computer_tb/comp_computer/hold
 add wave -noupdate /computer_tb/comp_computer/memoryNotReady
 add wave -noupdate /computer_tb/comp_computer/reset
+add wave -noupdate /computer_tb/outputReady
 add wave -noupdate -color Magenta -radix decimal /computer_tb/comp_computer/outputRegOut
 add wave -noupdate -color Gold -radix hexadecimal /computer_tb/comp_computer/databus
 add wave -noupdate -color Cyan /computer_tb/comp_computer/memClk
@@ -62,10 +63,10 @@ add wave -noupdate -radix unsigned /computer_tb/comp_computer/comp_cpu/comp_cont
 add wave -noupdate -color {Slate Blue} -radix hexadecimal /computer_tb/comp_computer/comp_cpu/comp_control/controlBits_upperByte
 add wave -noupdate -color {Slate Blue} -radix hexadecimal /computer_tb/comp_computer/comp_cpu/comp_control/controlBits_lowerByte
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {701 ps} 0}
+WaveRestoreCursors {{Cursor 2} {581 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 375
-configure wave -valuecolwidth 38
+configure wave -valuecolwidth 40
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
 configure wave -snapdistance 10
@@ -78,4 +79,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {735 ps}
+WaveRestoreZoom {521 ps} {668 ps}

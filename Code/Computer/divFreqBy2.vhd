@@ -6,6 +6,7 @@ use work.components_pk.all;
 entity divFreqBy2 is
 
 	port (
+
 		d : in  std_logic;
 		q : out std_logic
 	);

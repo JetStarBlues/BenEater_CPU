@@ -6,6 +6,7 @@ use work.components_pk.all;
 entity bufferN is
 
 	port (
+
 		d  : in  std_logic_vector( N - 1 downto 0 );
 		oe : in  std_logic;
 		q  : out std_logic_vector( N - 1 downto 0 )

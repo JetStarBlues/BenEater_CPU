@@ -6,6 +6,7 @@ use work.components_pk.all;
 entity fullAdder is
 
 	port (
+
 		a, b, cIn : in  std_logic;
 		sum, cOut : out std_logic
 	);

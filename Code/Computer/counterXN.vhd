@@ -6,10 +6,12 @@ use work.components_pk.all;
 entity counterXN is
 
 	generic (
+
 		X : integer
 	);
 
 	port (
+
 		d              : in  std_logic_vector( N - 1 downto 0 );
 		load, clk, clr : in  std_logic;
 		increment      : in  std_logic;

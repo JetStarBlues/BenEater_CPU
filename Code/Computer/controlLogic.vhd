@@ -12,6 +12,7 @@ use work.components_pk.all;
 entity controlLogic is
 
 	port (
+
 		instruction : in std_logic_vector( N - 1 downto 0 );
 		clk, clr    : in std_logic;
 		carryBit    : in std_logic;

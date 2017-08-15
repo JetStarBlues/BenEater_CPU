@@ -6,12 +6,13 @@ use work.components_pk.all;
 entity cpu is
 
 	port (
+
 		databus : inout std_logic_vector( N - 1 downto 0 );
 		
 		clock, reset : in std_logic;
 		hold         : in std_logic;  -- yield databus control to external device
 		
-		outputUpdated              : out std_logic;
+		outputReady                : out std_logic;
 		outputRegisterOut          : out std_logic_vector( N - 1 downto 0 );
 
 		c_memoryAddressRegister_in : out std_logic;
@@ -66,8 +67,6 @@ begin
 	instructionRegister_oe <= c_instructionRegister_out and not hold;
 	ARegister_oe           <= c_ARegister_out           and not hold;
 	ALU_oe                 <= c_ALU_out                 and not hold;
-
-	outputUpdated <= c_outputRegister_in;  -- use to indicate new output
 
 
 	comp_divClock : divFreqBy2 port map (
@@ -158,6 +157,16 @@ begin
 		c_ALU_subtract,
 		ALU_oe,
 		carryBit
+	);
+
+	-- sync signal transition with value transition
+	comp_outputReady : dFlipFlop port map (
+
+		c_outputRegister_in,
+		'1',
+		clk,
+		'0',
+		outputReady
 	);
 
 end architecture;

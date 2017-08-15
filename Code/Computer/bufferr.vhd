@@ -8,6 +8,7 @@ use altera.altera_primitives_components.tri;
 entity bufferr is
 
 	port (
+
 		d, oe : in  std_logic;
 		q     : out std_logic
 	);
