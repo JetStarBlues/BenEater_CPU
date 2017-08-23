@@ -9,8 +9,10 @@ entity cpu is
 
 		databus : inout std_logic_vector( N - 1 downto 0 );
 		
-		clock, reset : in std_logic;
-		hold         : in std_logic;  -- yield databus control to external device
+		clock : in std_logic;
+		reset : in std_logic;
+		hold  : in std_logic;  -- yield databus control to external device
+		waitt : in std_logic;  -- suspend CPU
 		
 		outputReady                : out std_logic;
 		outputRegisterOut          : out std_logic_vector( N - 1 downto 0 );
@@ -58,16 +60,21 @@ architecture ac of cpu is
 	signal c_programCounter_out       : std_logic;
 	signal c_programCounter_jump      : std_logic;
 
+
+	signal temp : std_logic;
+	signal suspend : std_logic;
+
 begin
 
-	clk <= clock and not c_halt;  -- halt disables clk
+	-- Suspend CPU
+	suspend <= waitt or c_halt;
+	clk <= clock and not suspend;
 
 	-- Disconnect from databus when hold = '1'
 	programCounter_oe      <= c_programCounter_out      and not hold;
 	instructionRegister_oe <= c_instructionRegister_out and not hold;
 	ARegister_oe           <= c_ARegister_out           and not hold;
 	ALU_oe                 <= c_ALU_out                 and not hold;
-
 
 	comp_divClock : divFreqBy2 port map (
 

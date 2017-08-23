@@ -25,6 +25,8 @@ architecture ac of UART_TX_tb is
 
 begin
 
+	clk <= not clk after 1 ps;
+
 	comp_uartTx : UART_TX 
 	generic map (
 
@@ -39,8 +41,6 @@ begin
 		txActive,
 		txDone
 	);
-
-	clk <= not clk after 1 ps;
 
 	process( clk )
 	begin

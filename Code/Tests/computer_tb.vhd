@@ -9,21 +9,22 @@ end entity;
 
 architecture ac of computer_tb is
 
-	signal clk, reset   : std_logic := '0';
-	signal outputReady  : std_logic;
-	signal outputRegOut : std_logic_vector( N - 1 downto 0 );
+	signal clk, reset, waitt : std_logic := '0';
+	signal outputReady       : std_logic;
+	signal outputRegOut      : std_logic_vector( N - 1 downto 0 );
 
 begin
+
+	clk <= not clk after 1 ps;
 
 	comp_computer : computer port map (
 
 		clk,
 		reset,
+		waitt,
 		outputReady,
 		outputRegOut
 	);
-
-	clk <= not clk after 1 ps;
 
 end architecture;
 

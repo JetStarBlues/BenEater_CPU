@@ -1,15 +1,14 @@
+-- Code from Doulos,
+--  https://www.doulos.com/knowhow/vhdl_designers_guide/models/simple_ram_model/
+--  "[S]ynthesises into internal block memories in the majority of FPGA architectures"
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.components_pk.all;
 
 
--- Code from Doulos,
---  https://www.doulos.com/knowhow/vhdl_designers_guide/models/simple_ram_model/
---  "[S]ynthesises into internal block memories in the majority of FPGA architectures"
-
-
-entity arrayMemoryXN is
+entity singlePortRAMXN is
 
 	generic (
 
@@ -18,16 +17,16 @@ entity arrayMemoryXN is
 
 	port (
 
+		clk     : in  std_logic;
 		d, addr : in  std_logic_vector( N - 1 downto 0 );
 		load    : in  std_logic;
-		clk     : in  std_logic;
 		q       : out std_logic_vector( N - 1 downto 0 )
 	);
 
 end entity;
 
 
-architecture ac of arrayMemoryXN is
+architecture ac of singlePortRAMXN is
 
 	type ram_type is array( 0 to X - 1 ) of std_logic_vector( N - 1 downto 0 );
 	signal ram : ram_type;
@@ -42,7 +41,7 @@ begin
 	process ( clk )
 	begin
 
-		if rising_edge ( clk ) then
+		if rising_edge( clk ) then
 
 			if load = '1' then
 

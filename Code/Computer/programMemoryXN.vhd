@@ -50,7 +50,6 @@ architecture ac of programMemoryXN is
 		others => x"00"
 	);
 
-
 begin
 
 	q <= rom( to_integer( unsigned( addr ) ) );

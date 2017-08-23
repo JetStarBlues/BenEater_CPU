@@ -8,8 +8,9 @@ entity computer is
 
 	port (
 
-		clock, reset : in  std_logic;
-
+		clock        : in  std_logic;
+		reset        : in  std_logic;
+		waitt        : in  std_logic;  -- 'wait' (spelled properly) is a reserved keyword
 		outputReady  : out std_logic;
 		outputRegOut : out std_logic_vector( N - 1 downto 0 )
 	);
@@ -21,21 +22,13 @@ architecture ac of computer is
 
 	-- CPU
 	signal databus : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
-
-	signal cpuClock : std_logic;
-
-	signal hold : std_logic := '1';  -- init as high to facilitate memory initialization
-
+	signal cpuHold, cpuWait : std_logic;
 	signal memoryAddressRegister_in : std_logic;
 	signal memory_in, memory_out : std_logic;
 
-
 	-- Memory initialization helpers
 	signal memoryNotReady : std_logic := '1';
-
 	signal override : std_logic_vector( N - 1 downto 0 );
-
-	signal memClk : std_logic;
 	signal memLoadAddr, memLoadData : std_logic;
 	signal memLda, memLdd : std_logic;
 
@@ -49,22 +42,32 @@ architecture ac of computer is
 
 begin
 
-	cpuClock <= '0' when memoryNotReady = '1' else clock;  -- rewrite as mux component
+	cpuHold <= memoryNotReady;  -- yield databus
+	--cpuWait <= '1' when memoryNotReady = '1' else waitt;  -- suspend CPU
 
+	comp_cpuWait : mux2to1 port map (
+
+		'1',
+		waitt,
+		memoryNotReady,
+		cpuWait
+	);
 
 	comp_cpu : cpu port map (
 
 		databus,
 
-		cpuClock,
+		clock,
 		reset,
-		hold,
+		cpuHold,
+		cpuWait,
 
 		outputReady,
 		outputRegOut,
 
 		memoryAddressRegister_in,
-		memory_in, memory_out
+		memory_in,
+		memory_out
 	);
 
 	comp_mainMemory : memoryXN_oe
@@ -75,7 +78,7 @@ begin
 	port map (
 
 		databus,
-		memClk,
+		clock,
 		memLoadAddr,
 		memLoadData,
 		reset,
@@ -93,7 +96,7 @@ begin
 		pMemData
 	);
 
-
+	-- Initialize main memory
 	comp_st0 : bufferN port map (
 
 		override,                  -- startup control
@@ -102,19 +105,12 @@ begin
 	);
 	comp_st1 : mux2to1 port map (
 
-		clock,                     -- startup control
-		cpuClock,                  -- runtime control
-		memoryNotReady,
-		memClk
-	);
-	comp_st2 : mux2to1 port map (
-
 		memLda,                    -- startup control
 		memoryAddressRegister_in,  -- runtime control
 		memoryNotReady,
 		memLoadAddr
 	);
-	comp_st3 : mux2to1 port map (
+	comp_st2 : mux2to1 port map (
 
 		memLdd,                    -- startup control
 		memory_in,                 -- runtime control
@@ -192,8 +188,6 @@ begin
 						else
 
 							memoryNotReady <= '0';  -- done!
-
-							hold <= '0';
 
 						end if;
 

@@ -33,9 +33,9 @@ begin
 	comp0 : registerN port map ( d, loadAddr, clk, clrAddr, address );
 
 	-- Memory
-	comp1 : arrayMemoryXN
+	comp1 : singlePortRAMXN
 	        	generic map ( X )
-	        	port map    ( d, address, loadData, clk, q );
+	        	port map    ( clk, d, address, loadData, q );
 
 end architecture;
 

@@ -104,14 +104,14 @@ package components_pk is
 	end component;
 
 
-	component arrayMemoryXN is
+	component singlePortRAMXN is
 		generic (
 			X : integer
 		);
 		port (
+			clk     : in  std_logic;
 			d, addr : in  std_logic_vector( N - 1 downto 0 );
 			load    : in  std_logic;
-			clk     : in  std_logic;
 			q       : out std_logic_vector( N - 1 downto 0 )
 		);
 	end component;
@@ -285,8 +285,10 @@ package components_pk is
 		port (
 			databus : inout std_logic_vector( N - 1 downto 0 );
 			
-			clock, reset : in std_logic;
-			hold         : in std_logic;  -- yield databus control to external device
+			clock : in std_logic;
+			reset : in std_logic;
+			hold  : in std_logic;
+			waitt : in std_logic;
 			
 			outputReady                : out std_logic;
 			outputRegisterOut          : out std_logic_vector( N - 1 downto 0 );
@@ -302,7 +304,9 @@ package components_pk is
 
 	component computer is
 		port (
-			clock, reset : in  std_logic;
+			clock        : in  std_logic;
+			reset        : in  std_logic;
+			waitt        : in  std_logic;
 			outputReady  : out std_logic;
 			outputRegOut : out std_logic_vector( N - 1 downto 0 )
 		);
