@@ -1,14 +1,11 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate /computer_tb/comp_computer/clock
-add wave -noupdate /computer_tb/comp_computer/cpuClock
-add wave -noupdate -color Salmon /computer_tb/comp_computer/hold
 add wave -noupdate /computer_tb/comp_computer/memoryNotReady
 add wave -noupdate /computer_tb/comp_computer/reset
 add wave -noupdate /computer_tb/outputReady
 add wave -noupdate -color Magenta -radix decimal /computer_tb/comp_computer/outputRegOut
 add wave -noupdate -color Gold -radix hexadecimal /computer_tb/comp_computer/databus
-add wave -noupdate -color Cyan /computer_tb/comp_computer/memClk
 add wave -noupdate /computer_tb/comp_computer/memLoadAddr
 add wave -noupdate /computer_tb/comp_computer/memLoadData
 add wave -noupdate /computer_tb/comp_computer/memLda
@@ -28,6 +25,8 @@ add wave -noupdate -radix hexadecimal -childformat {{/computer_tb/comp_computer/
 add wave -noupdate -radix hexadecimal -childformat {{/computer_tb/comp_computer/comp_programMemory/rom(0) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(1) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(2) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(3) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(4) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(5) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(6) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(7) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(8) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(9) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(10) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(11) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(12) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(13) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(14) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(15) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(16) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(17) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(18) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(19) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(20) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(21) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(22) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(23) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(24) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(25) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(26) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(27) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(28) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(29) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(30) -radix hexadecimal} {/computer_tb/comp_computer/comp_programMemory/rom(31) -radix hexadecimal}} -subitemconfig {/computer_tb/comp_computer/comp_programMemory/rom(0) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(1) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(2) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(3) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(4) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(5) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(6) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(7) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(8) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(9) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(10) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(11) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(12) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(13) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(14) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(15) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(16) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(17) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(18) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(19) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(20) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(21) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(22) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(23) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(24) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(25) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(26) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(27) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(28) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(29) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(30) {-height 15 -radix hexadecimal} /computer_tb/comp_computer/comp_programMemory/rom(31) {-height 15 -radix hexadecimal}} /computer_tb/comp_computer/comp_programMemory/rom
 add wave -noupdate /computer_tb/comp_computer/comp_cpu/clk
 add wave -noupdate /computer_tb/comp_computer/comp_cpu/clk2
+add wave -noupdate /computer_tb/comp_computer/comp_cpu/hold
+add wave -noupdate /computer_tb/comp_computer/comp_cpu/waitt
 add wave -noupdate -color Magenta -radix decimal /computer_tb/comp_computer/comp_cpu/outputRegisterOut
 add wave -noupdate -color Gold -radix hexadecimal /computer_tb/comp_computer/comp_cpu/databus
 add wave -noupdate -color Pink -radix hexadecimal /computer_tb/comp_computer/comp_cpu/instruction
@@ -63,7 +62,7 @@ add wave -noupdate -radix unsigned /computer_tb/comp_computer/comp_cpu/comp_cont
 add wave -noupdate -color {Slate Blue} -radix hexadecimal /computer_tb/comp_computer/comp_cpu/comp_control/controlBits_upperByte
 add wave -noupdate -color {Slate Blue} -radix hexadecimal /computer_tb/comp_computer/comp_cpu/comp_control/controlBits_lowerByte
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {581 ps} 0}
+WaveRestoreCursors {{Cursor 2} {1565 ps} 0} {{Cursor 2} {354 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 375
 configure wave -valuecolwidth 40
@@ -79,4 +78,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {521 ps} {668 ps}
+WaveRestoreZoom {0 ps} {1314 ps}

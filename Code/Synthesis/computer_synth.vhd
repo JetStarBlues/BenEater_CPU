@@ -27,8 +27,8 @@ architecture ac of computer_synth is
 
 
 	-- UART
-	constant clksPerBit : integer := 26;  -- small value for testbench
-	--constant clksPerBit : integer := 434;   -- 50M Hz / 115200 Hz
+	--constant clksPerBit : integer := 26;    -- small value for testbench
+	constant clksPerBit : integer := 434;   -- 50M Hz / 115200 Hz
 	--constant clksPerBit : integer := 5208;  -- 50M Hz / 9600 Hz
 	signal txActive, txDone : std_logic;
 
