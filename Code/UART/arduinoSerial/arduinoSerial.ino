@@ -1,6 +1,6 @@
 byte incomingByte = 0;
 
-int baudRate = 115200;
+unsigned long baudRate = 115200;
 
 void setup() {
 
@@ -12,9 +12,12 @@ void loop() {
   // Receive
   if ( Serial.available() > 0 ) {
 
-      incomingByte = Serial.read();
+      //incomingByte = Serial.read();
 
       //Serial.print( incomingByte );
-      Serial.println( incomingByte );
+      //Serial.println( incomingByte );
+
+      //Serial.print( Serial.read() );
+      Serial.println( Serial.read() );
   }
 }

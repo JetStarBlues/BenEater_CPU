@@ -27,7 +27,7 @@ architecture ac of computer is
 	signal memory_in, memory_out : std_logic;
 
 	-- Memory initialization helpers
-	signal memoryNotReady : std_logic := '1';
+	signal memoryNotReady : std_logic := '1'; --
 	signal override : std_logic_vector( N - 1 downto 0 );
 	signal memLoadAddr, memLoadData : std_logic;
 	signal memLda, memLdd : std_logic;

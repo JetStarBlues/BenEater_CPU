@@ -74,22 +74,22 @@ begin
 	microcodeAddr_upper <= '0' & baseAddr & step;
 	microcodeAddr_lower <= '1' & baseAddr & step;  -- Offset by 128 in ROM, see https://youtu.be/JUVt_KYAp-I?t=17m50s
 
-	halt                     <= controlBits_upperByte(7);
-	memoryAddressReg_in      <= controlBits_upperByte(6);
-	memory_in                <= controlBits_upperByte(5);
-	memory_out               <= controlBits_upperByte(4);
-	instructionReg_out       <= controlBits_upperByte(3);
-	instructionReg_in        <= controlBits_upperByte(2);
-	ARegister_in             <= controlBits_upperByte(1);
-	ARegister_out            <= controlBits_upperByte(0);
+	halt                     <= controlBits_upperByte(7) and not clr;
+	memoryAddressReg_in      <= controlBits_upperByte(6) and not clr;
+	memory_in                <= controlBits_upperByte(5) and not clr;
+	memory_out               <= controlBits_upperByte(4) and not clr;
+	instructionReg_out       <= controlBits_upperByte(3) and not clr;
+	instructionReg_in        <= controlBits_upperByte(2) and not clr;
+	ARegister_in             <= controlBits_upperByte(1) and not clr;
+	ARegister_out            <= controlBits_upperByte(0) and not clr;
 
-	ALU_out                  <= controlBits_lowerByte(7);
-	ALU_subtract             <= controlBits_lowerByte(6);
-	BRegister_in             <= controlBits_lowerByte(5);
-	outputRegister_in        <= controlBits_lowerByte(4);
-	programCounter_increment <= controlBits_lowerByte(3);
-	programCounter_out       <= controlBits_lowerByte(2);
-	programCounter_jump      <= controlBits_lowerByte(1);
+	ALU_out                  <= controlBits_lowerByte(7) and not clr;
+	ALU_subtract             <= controlBits_lowerByte(6) and not clr;
+	BRegister_in             <= controlBits_lowerByte(5) and not clr;
+	outputRegister_in        <= controlBits_lowerByte(4) and not clr;
+	programCounter_increment <= controlBits_lowerByte(3) and not clr;
+	programCounter_out       <= controlBits_lowerByte(2) and not clr;
+	programCounter_jump      <= controlBits_lowerByte(1) and not clr;
 
 
 	-- Microcode ROM

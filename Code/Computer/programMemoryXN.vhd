@@ -27,7 +27,8 @@ architecture ac of programMemoryXN is
 	constant rom : rom_type := (
 
 		-- Multiples of 3  ( OUT = 3x )
-		0 => "01010011",
+		--0 => "01010011",
+		0 => "01010001",
 		1 => "01001111",
 		2 => "01010000",
 		3 => "00101111",
