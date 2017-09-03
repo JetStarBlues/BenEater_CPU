@@ -26,8 +26,7 @@ architecture ac of programMemoryXN is
 	
 	constant rom : rom_type := (
 
-		-- Multiples of 3  ( OUT = 3x )
-		--0 => "01010011",
+		-- Increment ( OUT = OUT + 1 ) (datatype - uint8)
 		0 => "01010001",
 		1 => "01001111",
 		2 => "01010000",
@@ -35,7 +34,15 @@ architecture ac of programMemoryXN is
 		4 => "11100000",
 		5 => "01100011",
 
-		-- Arithmetic test ( OUT = 5 + 2 - 15 )
+		-- Multiples of 3 ( OUT = 3x ) (datatype - uint8)
+		--0 => "01010011",
+		--1 => "01001111",
+		--2 => "01010000",
+		--3 => "00101111",
+		--4 => "11100000",
+		--5 => "01100011",
+
+		-- Arithmetic test ( OUT = 5 + 2 - 15 ) (datatype - int8)
 		--0  => "01010101",
 		--1  => "01001111",
 		--2  => "01010010",
@@ -47,6 +54,20 @@ architecture ac of programMemoryXN is
 		--8  => "00111101",
 		--9  => "11100000",
 		--10 => "11110000",
+
+		-- Hello world ( OUT =  ) (datatype - ascii)
+		--0  => "01010001",
+		--1  => "01001111",
+		--2  => "01010000",
+		--3  => "01001110",
+		--4  => "00011110",
+		--5  => "00101111",
+		--6  => "01001110",
+		--7  => "11100000",
+		--8  => "01011010",
+		--9  => "11100000",
+		--10 => "01100100",
+
 
 		others => x"00"
 	);

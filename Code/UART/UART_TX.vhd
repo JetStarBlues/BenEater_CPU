@@ -33,7 +33,7 @@ architecture ac of UART_TX is
 	type states is ( sIdle, sStartBit, sDataBits, sStopBit );
 	signal state : states := sIdle;
 
-	signal clkCount : integer range 0 to clksPerBit - 1 := 0;
+	signal clkCount : integer range 1 to clksPerBit := 1;
 	signal bitIndex : integer range 0 to 7 := 0;
 	signal data     : std_logic_vector( 7 downto 0 ) := ( others => '0' );
 
@@ -51,7 +51,7 @@ begin
 					tx       <= '1';  -- drive high when idle
 					txActive <= '0';
 					txDone   <= '0';
-					clkCount <= 0;
+					clkCount <= 1;
 					bitIndex <= 0;
 
 					if dataValid = '1' then
@@ -73,7 +73,7 @@ begin
 
 					tx <= '0';  -- drive low
 
-					if clkCount < clksPerBit - 1 then  -- hold for clksPerBit
+					if clkCount < clksPerBit then  -- hold for clksPerBit
 
 						clkCount <= clkCount + 1;
 
@@ -81,7 +81,7 @@ begin
 
 					else
 
-						clkCount <= 0;
+						clkCount <= 1;
 
 						state <= sDataBits;
 
@@ -92,7 +92,7 @@ begin
 
 					tx <= data( bitIndex );
 
-					if clkCount < clksPerBit - 1 then  -- hold for clksPerBit
+					if clkCount < clksPerBit then  -- hold for clksPerBit
 
 						clkCount <= clkCount + 1;
 
@@ -100,7 +100,7 @@ begin
 
 					else
 
-						clkCount <= 0;
+						clkCount <= 1;
 
 						-- Check if we've transmitted all bits
 						if bitIndex < 7 then
@@ -124,7 +124,7 @@ begin
 
 					tx <= '1';  -- drive high
 
-					if clkCount < clksPerBit - 1 then  -- hold for clksPerBit
+					if clkCount < clksPerBit then  -- hold for clksPerBit
 
 						clkCount <= clkCount + 1;
 
@@ -134,7 +134,7 @@ begin
 
 						txDone <= '1';
 
-						clkCount <= 0;
+						clkCount <= 1;
 
 						state <= sIdle;
 

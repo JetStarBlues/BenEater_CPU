@@ -22,8 +22,6 @@ end entity;
 
 architecture ac of registerN_IR_oe is
 
-	signal zero : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
-
 	signal q0, q1 : std_logic_vector( N - 1 downto 0 );
 
 begin

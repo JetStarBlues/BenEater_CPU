@@ -21,6 +21,7 @@ end entity;
 architecture ac of computer is
 
 	-- CPU
+	signal clock2 : std_logic;
 	signal databus : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
 	signal cpuHold, cpuWait : std_logic;
 	signal memoryAddressRegister_in : std_logic;
@@ -43,7 +44,12 @@ architecture ac of computer is
 begin
 
 	cpuHold <= memoryNotReady;  -- yield databus
-	--cpuWait <= '1' when memoryNotReady = '1' else waitt;  -- suspend CPU
+
+	comp_divClock : divFreqBy2 port map (
+
+		clock,
+		clock2
+	);
 
 	comp_cpuWait : mux2to1 port map (
 
@@ -57,7 +63,7 @@ begin
 
 		databus,
 
-		clock,
+		clock2,
 		reset,
 		cpuHold,
 		cpuWait,

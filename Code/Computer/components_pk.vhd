@@ -14,6 +14,9 @@ package components_pk is
 
 	--- General ---
 
+	constant zero : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
+
+
 	component bufferr is
 		port (
 			d, oe : in  std_logic;

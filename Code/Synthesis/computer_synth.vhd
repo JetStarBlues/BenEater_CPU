@@ -25,7 +25,6 @@ architecture ac of computer_synth is
 	signal outputReady  : std_logic;
 	signal outputRegOut : std_logic_vector( N - 1 downto 0 );
 
-
 	-- UART
 	--constant clksPerBit : integer := 26;    -- small value for testbench
 	constant clksPerBit : integer := 434;   -- 50M Hz / 115200 Hz

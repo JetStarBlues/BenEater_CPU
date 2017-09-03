@@ -27,17 +27,17 @@ begin
 	);
 
 
-		process
-		begin
-	
-			wait for 2500 ps;
-			reset <= '1';
-			wait for 100 ps;
-			reset <= '0';
-	
-			wait; --
-	
-		end process;
+	--	process
+	--	begin
+	--
+	--		wait for 2500 ps;
+	--		reset <= '1';
+	--		wait for 100 ps;
+	--		reset <= '0';
+	--
+	--		wait; --
+	--
+	--	end process;
 
 end architecture;
 

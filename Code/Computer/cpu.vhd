@@ -27,8 +27,11 @@ end entity;
 
 architecture ac of cpu is
 
+	-- 
+	signal suspend : std_logic;
+
 	-- Internal clocks
-	signal clk, clk2 : std_logic;
+	signal clk : std_logic;
 
 	-- Databus
 	signal programCounter_oe      : std_logic;
@@ -60,10 +63,6 @@ architecture ac of cpu is
 	signal c_programCounter_out       : std_logic;
 	signal c_programCounter_jump      : std_logic;
 
-
-	signal temp : std_logic;
-	signal suspend : std_logic;
-
 begin
 
 	-- Suspend CPU
@@ -76,16 +75,10 @@ begin
 	ARegister_oe           <= c_ARegister_out           and not hold;
 	ALU_oe                 <= c_ALU_out                 and not hold;
 
-	comp_divClock : divFreqBy2 port map (
-
-		clk,
-		clk2
-	);
-
 	comp_control : controlLogic port map (
 
 		instruction,
-		clk2,
+		clk,
 		reset,
 		carryBit,
 
@@ -110,7 +103,7 @@ begin
 
 		databus,
 		c_programCounter_jump,
-		clk2,
+		clk,
 		reset,
 		c_programCounter_increment,
 		programCounter_oe
@@ -130,7 +123,7 @@ begin
 
 		databus,
 		c_ARegister_in,
-		clk2,
+		clk,
 		reset,
 		ARegister_oe,
 		ARegisterOut
@@ -140,7 +133,7 @@ begin
 
 		databus,
 		c_BRegister_in,
-		clk2,
+		clk,
 		reset,
 		'0',
 		BRegisterOut
@@ -167,14 +160,16 @@ begin
 	);
 
 	-- sync signal transition with value transition
-	comp_outputReady : dFlipFlop port map (
+	--comp_outputReady : dFlipFlop port map (
 
-		c_outputRegister_in,
-		'1',
-		clk,
-		'0',
-		outputReady
-	);
+	--	c_outputRegister_in,
+	--	'1',
+	--	clk,
+	--	'0',
+	--	outputReady
+	--);
+
+	outputReady <= c_outputRegister_in;
 
 end architecture;
 

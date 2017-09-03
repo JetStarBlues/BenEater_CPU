@@ -41,8 +41,6 @@ architecture ac of controlLogic is
 
 	signal clock : std_logic;
 
-	signal zero : std_logic_vector( N - 1 downto 0 ) := ( others => '0' );
-
 	-- longest instruction has five micro instructions
 	--  See https://youtu.be/X7rCxs1ppyY?t=7m40s
 	--  Note, longest instruction shortened from 6 to 5 later in video
