@@ -1,116 +1,327 @@
 // Description:
-//  OUT = Greetings!\nYou got here just in time!\n
-//  Useful for communication testing ... i.e. search for dropped bytes
+//  OUT = Greetings!\nIt's great to be awake!\n\n
 
-LDI 1   // increment by
-STA 15  // M[15] = 1
-
-LDI 0   // start value
-STA 14  // M[14] = 0
-
-LDA 14  // A = M[14]
-ADD 15  // A += M[15]
-STA 14  // M[14] = A
+// G -> 71
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
 OUT
 
-LDI 10  // A = M[10]
+// r -> 114
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 9
 OUT
 
-JMP 4   // loop indefinitely
-
-
-
-LDA G - 1  // init
-
-ADD inc
+// e -> 101
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
 OUT
 
-
-LDI 1  // increment by
-STA
-
-
-// Doing this manually.
-// Code can be made more consise by using conditional jumps (allows for terminable loop).
-// At the time of writing, none available.
-
-LDI 71   // G
-OUT
-LDI 114  // r
-OUT
-LDI 101  // e
-OUT
-LDI 101  // e
-OUT
-LDI 116  // t
-OUT
-LDI 105  // i
-OUT
-LDI 110  // n
-OUT
-LDI 103  // g
-OUT
-LDI 115  // s
-OUT
-LDI 33   // !
-OUT
-LDI 10   // \n
-OUT
-LDI 89   // Y
-OUT
-LDI 111  // o
-OUT
-LDI 117  // u
-OUT
-LDI 32   //   
-OUT
-LDI 103  // g
-OUT
-LDI 111  // o
-OUT
-LDI 116  // t
-OUT
-LDI 32   // 
-OUT
-LDI 104  // h
-OUT
-LDI 101  // e
-OUT
-LDI 114  // r
-OUT
-LDI 101  // e
-OUT
-LDI 32   // 
-OUT
-LDI 106  // j
-OUT
-LDI 117  // u
-OUT
-LDI 115  // s
-OUT
-LDI 116  // t
-OUT
-LDI 32   // 
-OUT
-LDI 105  // i
-OUT
-LDI 110  // n
-OUT
-LDI 32   // 
-OUT
-LDI 116  // t
-OUT
-LDI 105  // i
-OUT
-LDI 109  // m
-OUT
-LDI 101  // e
-OUT
-LDI 33   // !
-OUT
-LDI 10   // \n
-OUT
-LDI 10   // \n
+// e -> 101
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
 OUT
 
-JMP 0    // loop indefinitely
+// t -> 116
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
+OUT
+
+// i -> 105
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 0
+OUT
+
+// n -> 110
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 5
+OUT
+
+// g -> 103
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 13
+OUT
+
+// s -> 115
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 10
+OUT
+
+// ! -> 33
+LDI 15
+ADI 15
+ADI 3
+OUT
+
+// \n -> 10
+LDI 10
+OUT
+
+// I -> 73
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 13
+OUT
+
+// t -> 116
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
+OUT
+
+// ' -> 39
+LDI 15
+ADI 15
+ADI 9
+OUT
+
+// s -> 115
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 10
+OUT
+
+//   -> 32
+LDI 15
+ADI 15
+ADI 2
+OUT
+
+// g -> 103
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 13
+OUT
+
+// r -> 114
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 9
+OUT
+
+// e -> 101
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
+OUT
+
+// a -> 97
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 7
+OUT
+
+// t -> 116
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
+OUT
+
+//   -> 32
+LDI 15
+ADI 15
+ADI 2
+OUT
+
+// t -> 116
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
+OUT
+
+// o -> 111
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 6
+OUT
+
+//   -> 32
+LDI 15
+ADI 15
+ADI 2
+OUT
+
+// b -> 98
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 8
+OUT
+
+// e -> 101
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
+OUT
+
+//   -> 32
+LDI 15
+ADI 15
+ADI 2
+OUT
+
+// a -> 97
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 7
+OUT
+
+// w -> 119
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 14
+OUT
+
+// a -> 97
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 7
+OUT
+
+// k -> 107
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 2
+OUT
+
+// e -> 101
+LDI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 15
+ADI 11
+OUT
+
+// ! -> 33
+LDI 15
+ADI 15
+ADI 3
+OUT
+
+// \n -> 10
+LDI 10
+OUT
+
+// \n -> 10
+LDI 10
+OUT
+
+HLT

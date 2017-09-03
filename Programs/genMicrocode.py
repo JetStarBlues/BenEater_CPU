@@ -5,22 +5,22 @@ lcb = [  'ΣO', 'SU', 'BI', 'OI', 'CE', 'CO',  'J', '?' ]
 
 microInstructions = [
 
-	[       0,       0,          0 ],  # NOP
-	[ 'IO|MI', 'RO|AI',          0 ],  # LDA
-	[ 'IO|MI', 'RO|BI',    'ΣO|AI' ],  # ADD
-	[ 'IO|MI', 'RO|BI', 'ΣO|AI|SU' ],  # SUB
-	[ 'IO|MI', 'AO|RI',          0 ],  # STA
-	[ 'IO|AI',       0,          0 ],  # LDI
-	[  'IO|J',       0,          0 ],  # JMP
-	[       0,       0,          0 ],  # xxx
-	[       0,       0,          0 ],  # xxx
-	[       0,       0,          0 ],  # xxx
-	[       0,       0,          0 ],  # xxx
-	[       0,       0,          0 ],  # xxx
-	[       0,       0,          0 ],  # xxx
-	[       0,       0,          0 ],  # xxx
-	[ 'AO|OI',       0,          0 ],  # OUT
-	[   'HLT',       0,          0 ],  # HLT
+	[       0,          0,          0 ],  # NOP
+	[ 'IO|MI',    'RO|AI',          0 ],  # LDA
+	[ 'IO|MI',    'RO|BI',    'ΣO|AI' ],  # ADD
+	[ 'IO|MI',    'RO|BI', 'ΣO|AI|SU' ],  # SUB
+	[ 'IO|MI',    'AO|RI',          0 ],  # STA
+	[ 'IO|AI',          0,          0 ],  # LDI
+	[  'IO|J',          0,          0 ],  # JMP
+	[ 'IO|BI',    'ΣO|AI',          0 ],  # ADI, Atm, unofficial instructions
+	[ 'IO|BI', 'ΣO|AI|SU',          0 ],  # SBI, Atm, unofficial instructions
+	[       0,          0,          0 ],  # xxx
+	[       0,          0,          0 ],  # xxx
+	[       0,          0,          0 ],  # xxx
+	[       0,          0,          0 ],  # xxx
+	[       0,          0,          0 ],  # xxx
+	[ 'AO|OI',          0,          0 ],  # OUT
+	[   'HLT',          0,          0 ],  # HLT
 ]
 
 fetch = [ 'CO|MI', 'RO|II|CE' ]

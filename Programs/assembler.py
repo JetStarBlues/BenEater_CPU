@@ -20,15 +20,19 @@ import os
 
 instructions = [
 
+	# 'NOP', 'LDA', 'ADD', 'SUB',
+	# 'STA', 'LDI', 'JMP', 'xxx',
+	# 'xxx', 'xxx', 'xxx', 'xxx',
+	# 'xxx', 'xxx', 'OUT', 'HLT'
+
 	'NOP', 'LDA', 'ADD', 'SUB',
-	'STA', 'LDI', 'JMP', 'xxx',
-	'xxx', 'xxx', 'xxx', 'xxx',
+	'STA', 'LDI', 'JMP', 'ADI',
+	'SBI', 'xxx', 'xxx', 'xxx',
 	'xxx', 'xxx', 'OUT', 'HLT'
 ]
 
 
 # -- Extraction --------------------------------------
-
 
 cmdPattern = '''
 	^                # from beginning of string

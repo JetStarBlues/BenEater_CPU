@@ -75,6 +75,9 @@ begin
 	ARegister_oe           <= c_ARegister_out           and not hold;
 	ALU_oe                 <= c_ALU_out                 and not hold;
 
+	-- Update status
+	outputReady <= c_outputRegister_in;
+
 	comp_control : controlLogic port map (
 
 		instruction,
@@ -158,18 +161,6 @@ begin
 		ALU_oe,
 		carryBit
 	);
-
-	-- sync signal transition with value transition
-	--comp_outputReady : dFlipFlop port map (
-
-	--	c_outputRegister_in,
-	--	'1',
-	--	clk,
-	--	'0',
-	--	outputReady
-	--);
-
-	outputReady <= c_outputRegister_in;
 
 end architecture;
 

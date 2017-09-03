@@ -7,9 +7,9 @@ package components_pk is
 
 	--- Configure ---
 
-	constant N : integer := 8;  -- n bits
-	constant memorySize : integer := 32;  -- size in words
-	constant programMemorySize : integer := 32;  -- size in words
+	constant N : integer := 8;  -- number of bits
+	constant memorySize : integer := 256;  -- size in words
+	constant programMemorySize : integer := 256;  -- size in words
 
 
 	--- General ---
