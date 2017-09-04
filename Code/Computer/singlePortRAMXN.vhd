@@ -36,7 +36,6 @@ architecture ac of singlePortRAMXN is
 begin
 
 	q <= ram( to_integer( unsigned( read_addr ) ) );
-	--q <= ram( to_integer( unsigned( addr ) ) );
 
 	process ( clk )
 	begin

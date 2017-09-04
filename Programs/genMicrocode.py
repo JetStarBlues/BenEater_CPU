@@ -1,3 +1,14 @@
+# ==============================================================================
+# 
+#  Attribution:
+# 
+#     Code by www.jk-quantized.com
+# 
+#  Redistribution and use of this code in source and binary forms must
+#  retain the above attribution notice and this condition.
+# 
+# ==============================================================================
+
 # See https://youtu.be/JUVt_KYAp-I
 
 ucb = [ 'HLT', 'MI', 'RI', 'RO', 'IO', 'II', 'AI', 'AO' ]

@@ -1,3 +1,7 @@
+-- Code by www.jk-quantized.com
+-- Redistribution and use of this code in source and binary forms
+-- must retain the above attribution notice and this condition.
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;

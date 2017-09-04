@@ -1,13 +1,13 @@
-# ========================================================================================
+# ==============================================================================
 # 
 #  Attribution:
 # 
 #     Code by www.jk-quantized.com
 # 
-#  Redistributions and use of this code in source and binary forms must retain
-#  the above attribution notice and this condition.
+#  Redistribution and use of this code in source and binary forms must
+#  retain the above attribution notice and this condition.
 # 
-# ========================================================================================
+# ==============================================================================
 
 
 # -- Imports -----------------------------------------
