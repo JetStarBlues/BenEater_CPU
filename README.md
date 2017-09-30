@@ -6,5 +6,5 @@ The code is synthesizable and does not rely on vendor specific IP cores.
 
 Copyright (c) 2017 [jk-quantized][1]. See LICENSE.
 
-[0] : https://www.youtube.com/playlist?list=PLowKtXNTBypGqImE405J2565dvjafglHU
+[0] : https://www.youtube.com/playlist?list=PLowKtXNTBypGqImE405J2565dvjafglHU  
 [1] : http://www.jk-quantized.com/
