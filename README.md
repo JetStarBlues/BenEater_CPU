@@ -2,7 +2,7 @@ A VHDL implementation of the CPU designed by Ben Eater in [this Youtube playlist
 
 Slight modifications have been made to allow for IO interfacing. This includes the addition of a UART transmitter.
 
-The code is synthesizable.
+The code is synthesizable and does not rely on vendor specific IP cores.
 
 Copyright (c) 2017 [jk-quantized][1]. See LICENSE.
 
