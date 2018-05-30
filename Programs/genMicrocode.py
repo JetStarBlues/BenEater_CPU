@@ -11,33 +11,67 @@
 
 # See https://youtu.be/JUVt_KYAp-I
 
-ucb = [ 'HLT', 'MI', 'RI', 'RO', 'IO', 'II', 'AI', 'AO' ]
-lcb = [  'ΣO', 'SU', 'BI', 'OI', 'CE', 'CO',  'J', '?' ]
 
-microInstructions = [
+# Codes -------------------------------------------------------
 
-	[       0,          0,          0 ],  # NOP
-	[ 'IO|MI',    'RO|AI',          0 ],  # LDA
-	[ 'IO|MI',    'RO|BI',    'ΣO|AI' ],  # ADD
-	[ 'IO|MI',    'RO|BI', 'ΣO|AI|SU' ],  # SUB
-	[ 'IO|MI',    'AO|RI',          0 ],  # STA
-	[ 'IO|AI',          0,          0 ],  # LDI
-	[  'IO|J',          0,          0 ],  # JMP
-	[ 'IO|BI',    'ΣO|AI',          0 ],  # ADI, Atm, unofficial instructions
-	[ 'IO|BI', 'ΣO|AI|SU',          0 ],  # SBI, Atm, unofficial instructions
-	[       0,          0,          0 ],  # xxx
-	[       0,          0,          0 ],  # xxx
-	[       0,          0,          0 ],  # xxx
-	[       0,          0,          0 ],  # xxx
-	[       0,          0,          0 ],  # xxx
-	[ 'AO|OI',          0,          0 ],  # OUT
-	[   'HLT',          0,          0 ],  # HLT
+instructions = [
+
+	# 'NOP', 'LDA', 'ADD', 'SUB',
+	# 'STA', 'LDI', 'JMP',  'JC',
+	#  'JZ', 'xxx', 'xxx', 'xxx',
+	# 'xxx', 'xxx', 'OUT', 'HLT'
+
+	'NOP', 'LDA', 'ADD', 'SUB',
+	'STA', 'LDI', 'JMP',  'JC',
+	 'JZ', 'xxx', 'xxx', 'xxx',
+	'ADI', 'SBI', 'OUT', 'HLT'
 ]
+
+ucb = [ 'HLT', 'MI', 'RI', 'RO', 'IO', 'II', 'AI', 'AO' ]
+lcb = [  'ΣO', 'SU', 'BI', 'OI', 'CE', 'CO',  'J', 'FI' ]
 
 fetch = [ 'CO|MI', 'RO|II|CE' ]
 
+microInstructions_ = [
 
-# -- Functions ----
+	[       0,             0,             0, 0, 0, 0 ],  # NOP
+	[ 'IO|MI',       'RO|AI',             0, 0, 0, 0 ],  # LDA
+	[ 'IO|MI',       'RO|BI',    'ΣO|AI|FI', 0, 0, 0 ],  # ADD
+	[ 'IO|MI',       'RO|BI', 'ΣO|AI|SU|FI', 0, 0, 0 ],  # SUB
+	[ 'IO|MI',       'AO|RI',             0, 0, 0, 0 ],  # STA
+	[ 'IO|AI',             0,             0, 0, 0, 0 ],  # LDI
+	[  'IO|J',             0,             0, 0, 0, 0 ],  # JMP
+	[       0,             0,             0, 0, 0, 0 ],  # JC
+	[       0,             0,             0, 0, 0, 0 ],  # JZ
+	[       0,             0,             0, 0, 0, 0 ],  # xxx
+	[       0,             0,             0, 0, 0, 0 ],  # xxx
+	[       0,             0,             0, 0, 0, 0 ],  # xxx
+	[ 'IO|BI',    'ΣO|AI|FI',             0, 0, 0, 0 ],  # ADI, Atm, unofficial instructions
+	[ 'IO|BI', 'ΣO|AI|SU|FI',             0, 0, 0, 0 ],  # SBI, Atm, unofficial instructions
+	[ 'AO|OI',             0,             0, 0, 0, 0 ],  # OUT
+	[   'HLT',             0,             0, 0, 0, 0 ],  # HLT
+]
+
+# Account for jump variants
+microInstructions = microInstructions_ * 4
+
+# Flags_z0c1
+idx = ( 16 * 1 ) + instructions.index( 'JC' )
+microInstructions[ idx ] = [ 'IO|J', 0, 0, 0, 0, 0 ]
+
+# Flags_z1c0
+idx = ( 16 * 2 ) + instructions.index( 'JZ' )
+microInstructions[ idx ] = [ 'IO|J', 0, 0, 0, 0, 0 ]
+
+# Flags_z1c1
+idx = ( 16 * 3 ) + instructions.index( 'JC' )
+microInstructions[ idx ] = [ 'IO|J', 0, 0, 0, 0, 0 ]
+idx = ( 16 * 3 ) + instructions.index( 'JZ' )
+microInstructions[ idx ] = [ 'IO|J', 0, 0, 0, 0, 0 ]
+
+
+
+# Functions ---------------------------------------------------
 
 def bin2hex( a ):
 
@@ -53,7 +87,7 @@ def bin2hex( a ):
 		h = '00'
 
 	# return h
-	return 'x"{}"'.format( h )
+	return 'x"{}"'.format( h )  # VHDL hex format
 
 def decode( instrs ):
 
@@ -97,8 +131,6 @@ def getMicroHex ():
 
 	f = decode( fetch )
 
-	unused = [ bin2hex( 0 ) ] * ( 6 - len( microInstructions[0] ) )
-
 	ubytes = []
 	lbytes = []
 
@@ -115,20 +147,18 @@ def getMicroHex ():
 		ubyts.extend( byts[ 0 ] )
 		lbyts.extend( byts[ 1 ] )
 
-		ubyts.extend( unused )
-		lbyts.extend( unused )
-
 		ubytes.append( ubyts )
 		lbytes.append( lbyts )
 
 	return( ubytes, lbytes )
 
 
-# -- Print output ----
+# Print output ------------------------------------------------
 
 code = getMicroHex()
 
 for b in code[0]:
-	print( ', '.join( b ) )
+	print( ', '.join( b ), end=',\n' )
+print()
 for b in code[1]:
-	print( ', '.join( b ) )
+	print( ', '.join( b ), end=',\n' )

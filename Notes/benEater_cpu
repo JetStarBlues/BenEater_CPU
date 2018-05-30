@@ -104,6 +104,9 @@ Registers
 	- instruction
 	- output
 	- memory_address
+	- flags
+		. carry, zero
+
 
 Step
 	https://youtu.be/dHWFpkGsxOs?t=29m
@@ -133,67 +136,91 @@ CPU control signals
 	CE - program_counter enable -> increment counter
 	CO - program_counter out
 	J  - jump
-	?
+	FI - flags_reg in
 
-	JC - Sets J only when carry bit is set??
 
 Instructions
+                                  Flags
+	Name     Instruction   Step   XXZC    HLT MI RI RO IO II AI AO    ΣO SU BI OI CE CO J  FI
 
-	Name     Instruction   Step    HLT MI RI RO IO II AI AO    ΣO SU BI OI CE CO J  ?
+	Fetch    xxxx          000      ..    0   1  0  0  0  0  0  0     0  0  0  0  0  1  0  0
+	         xxxx          001      ..    0   0  0  1  0  1  0  0     0  0  0  0  1  0  0  0
 
-	Fetch    xxxx          000     0   1  0  0  0  0  0  0     0  0  0  0  0  1  0  0
-	         xxxx          001     0   0  0  1  0  1  0  0     0  0  0  0  1  0  0  0
+	LDA      0001          010      ..    0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
+	         0001          011      ..    0   0  0  1  0  0  1  0     0  0  0  0  0  0  0  0
+	         0001          100      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
-	LDA      0001          010     0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
-	         0001          011     0   0  0  1  0  0  1  0     0  0  0  0  0  0  0  0
-	         0001          100     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	ADD      0010          010      ..    0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
+	         0010          011      ..    0   0  0  1  0  0  0  0     0  0  1  0  0  0  0  0
+	         0010          100      ..    0   0  0  0  0  0  1  0     1  0  0  0  0  0  0  0
 
-	ADD      0010          010     0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
-	         0010          011     0   0  0  1  0  0  0  0     0  0  1  0  0  0  0  0
-	         0010          100     0   0  0  0  0  0  1  0     1  0  0  0  0  0  0  0
+	OUT      1110          010      ..    0   0  0  0  0  0  0  1     0  0  0  1  0  0  0  0
+	         1110          011      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1110          100      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
-	OUT      1110          010     0   0  0  0  0  0  0  1     0  0  0  1  0  0  0  0
-	         1110          011     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         1110          100     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	HLT      1111          010      ..    1   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1111          011      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1111          100      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
-	HLT      1111          010     1   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         1111          011     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         1111          100     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-
-	Smthn    xxxx          010     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         xxxx          011     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	Smthn    xxxx          010      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         xxxx          011      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
 
 Microcode
 
 	Each instruction can have up to 8 steps
 
-	Stored in EEPROM
+	Stored in EEPROM  ( 8bytes x 16 x 4 )
 
-	HLT - 0b1000000000000000
-	 MI - 0b0100000000000000
-	etc..
+	Address is composite
+		b3..0 = instruction code
+		b5..4 = alu flags
+
+		ex. HLT      -> 00 1111 -> 15
+		    HLT & C  -> 01 1111 -> 31
+		    HLT & Z  -> 10 1111 -> 47
+		    HLT & ZC -> 11 1111 -> 63
 
 
 	Name    addr  byte1         byte2         byte3         byte4         byte5         byte6         byte7         byte8
   
 	NOP     0     CO|MI         RO|II|CE      x             x             x             x             x             x
 	LDA     1     CO|MI         RO|II|CE      IO|MI         RO|AI         0             0             0             0
-	STA     ..    CO|MI         RO|II|CE      IO|MI         AO|RI         0             0             0             0
-	LDI     ..    CO|MI         RO|II|CE      IO|AI         0             0             0             0             0
-	ADD     ..    CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI         0             0             0
-	SUB     ..    CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|SU      0             0             0
-	JMP     ..    CO|MI         RO|II|CE      IO|J          0             0             0             0             0
-	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     ..    CO|MI         RO|II|CE      0             0             0             0             0             0
+	STA     2     CO|MI         RO|II|CE      IO|MI         AO|RI         0             0             0             0
+	LDI     3     CO|MI         RO|II|CE      IO|AI         0             0             0             0             0
+	ADD     4     CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|FI      0             0             0
+	SUB     5     CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|SU|FI   0             0             0
+	JMP     6     CO|MI         RO|II|CE      IO|J          0             0             0             0             0
+	*JC     7     CO|MI         RO|II|CE      0             0             0             0             0             0
+	*JZ     8     CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     9     CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     10    CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     11    CO|MI         RO|II|CE      0             0             0             0             0             0
+	**ADI   12    CO|MI         RO|II|CE      IO|BI         ΣO|AI|FI      0             0             0             0
+	**SBI   13    CO|MI         RO|II|CE      IO|BI         ΣO|AI|SU|FI   0             0             0             0
 	OUT     14    CO|MI         RO|II|CE      AO|OI         0             0             0             0             0
 	HLT     15    CO|MI         RO|II|CE      HLT           0             0             0             0             0
 
+
+	* Vary depending on flag status
+
+	  Flags_z0c0 ->  Z = 0, C = 0  correspond to instruction   0..15
+	  Flags_z0c1 ->  Z = 0, C = 1  correspond to instruction  16..31
+	  Flags_z1c0 ->  Z = 1, C = 0  correspond to instruction  32..47
+	  Flags_z1c1 ->  Z = 1, C = 1  correspond to instruction  48..63
+
+	-- Flags_z0c1 --
+	 JC     23    CO|MI         RO|II|CE      IO|J          0             0             0             0             0
+
+	-- Flags_z1c0 --
+	 JZ     40    CO|MI         RO|II|CE      IO|J          0             0             0             0             0
+
+	-- Flags_z1c1 --
+	 JC     55    CO|MI         RO|II|CE      IO|J          0             0             0             0             0
+	 JZ     56    CO|MI         RO|II|CE      IO|J          0             0             0             0             0
+
+
+	** unofficial instructions
 
 	TODO... check final instruction order he uses... whether reorders to logical? Otherwise might not be binary compatible
 

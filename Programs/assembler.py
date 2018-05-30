@@ -21,14 +21,14 @@ import os
 instructions = [
 
 	# 'NOP', 'LDA', 'ADD', 'SUB',
-	# 'STA', 'LDI', 'JMP', 'xxx',
-	# 'xxx', 'xxx', 'xxx', 'xxx',
+	# 'STA', 'LDI', 'JMP',  'JC',
+	#  'JZ', 'xxx', 'xxx', 'xxx',
 	# 'xxx', 'xxx', 'OUT', 'HLT'
 
 	'NOP', 'LDA', 'ADD', 'SUB',
-	'STA', 'LDI', 'JMP', 'ADI',
-	'SBI', 'xxx', 'xxx', 'xxx',
-	'xxx', 'xxx', 'OUT', 'HLT'
+	'STA', 'LDI', 'JMP',  'JC',
+	 'JZ', 'xxx', 'xxx', 'xxx',
+	'ADI', 'SBI', 'OUT', 'HLT'
 ]
 
 
