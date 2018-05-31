@@ -59,7 +59,7 @@ architecture ac of controlLogic is
 	signal microcodeAddr_upper, microcodeAddr_lower     : std_logic_vector( 9 downto 0 );
 	signal controlBits_upperByte, controlBits_lowerByte : std_logic_vector( 7 downto 0 );
 
-	signal flags_ : std_logic_vector( 1 downto 0 );
+	signal flagss : std_logic_vector( 1 downto 0 );
 
 begin
 
@@ -75,11 +75,11 @@ begin
 	-- microinstruction called depends on opcode, step, and status of flags
 	step   <= stepCounterOut( 2 downto 0 );
 	opcode <= instruction( 7 downto 4 );
-	flags_ <= flags( 1 downto 0 );
+	flagss <= flags( 1 downto 0 );
 
 
-	microcodeAddr_upper <= '0' & flags_ & opcode & step;
-	microcodeAddr_lower <= '1' & flags_ & opcode & step;  -- Offset in ROM, see https://youtu.be/JUVt_KYAp-I?t=17m50s
+	microcodeAddr_upper <= '0' & flagss & opcode & step;
+	microcodeAddr_lower <= '1' & flagss & opcode & step;  -- Offset in ROM, see https://youtu.be/JUVt_KYAp-I?t=17m50s
 
 	halt                     <= controlBits_upperByte( 7 ) and not clr;
 	memoryAddressReg_in      <= controlBits_upperByte( 6 ) and not clr;
@@ -97,6 +97,7 @@ begin
 	programCounter_increment <= controlBits_lowerByte( 3 ) and not clr;
 	programCounter_out       <= controlBits_lowerByte( 2 ) and not clr;
 	programCounter_jump      <= controlBits_lowerByte( 1 ) and not clr;
+	FRegister_in             <= controlBits_lowerByte( 0 ) and not clr;
 
 
 	-- Microcode ROM

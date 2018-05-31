@@ -70,6 +70,7 @@ architecture ac of cpu is
 	signal c_programCounter_increment : std_logic;
 	signal c_programCounter_out       : std_logic;
 	signal c_programCounter_jump      : std_logic;
+	signal c_FRegister_in             : std_logic;
 
 begin
 

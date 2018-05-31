@@ -5,8 +5,8 @@ add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/memoryNo
 add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/reset
 add wave -noupdate /computer_synth_tb/comp_computer_synth/outputReady
 add wave -noupdate -color {Cornflower Blue} /computer_synth_tb/comp_computer_synth/comp_uartTX/dataValid
-add wave -noupdate -color {Cornflower Blue} -radix decimal /computer_synth_tb/comp_computer_synth/comp_uartTX/txData
-add wave -noupdate -color {Cornflower Blue} -radix decimal /computer_synth_tb/comp_computer_synth/comp_uartTX/data
+add wave -noupdate -color {Cornflower Blue} -radix unsigned /computer_synth_tb/comp_computer_synth/comp_uartTX/txData
+add wave -noupdate -color {Cornflower Blue} -radix unsigned /computer_synth_tb/comp_computer_synth/comp_uartTX/data
 add wave -noupdate -color {Cornflower Blue} /computer_synth_tb/comp_computer_synth/comp_uartTX/txDone
 add wave -noupdate -color {Cornflower Blue} /computer_synth_tb/comp_computer_synth/comp_uartTX/txActive
 add wave -noupdate -color {Medium Aquamarine} /computer_synth_tb/comp_computer_synth/comp_uartTX/tx
@@ -15,7 +15,7 @@ add wave -noupdate -color {Cornflower Blue} /computer_synth_tb/comp_computer_syn
 add wave -noupdate -color {Cornflower Blue} /computer_synth_tb/comp_computer_synth/comp_uartTX/clkCount
 add wave -noupdate /computer_synth_tb/comp_computer_synth/outputReady
 add wave -noupdate /computer_synth_tb/comp_computer_synth/outputReady
-add wave -noupdate -color Magenta -radix decimal /computer_synth_tb/comp_computer_synth/comp_computer/outputRegOut
+add wave -noupdate -color Magenta -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/outputRegOut
 add wave -noupdate -color Gold -radix hexadecimal /computer_synth_tb/comp_computer_synth/comp_computer/databus
 add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/memLoadAddr
 add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/memLoadData
@@ -37,7 +37,7 @@ add wave -noupdate -radix hexadecimal -childformat {{/computer_synth_tb/comp_com
 add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/clk
 add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/hold
 add wave -noupdate -color {Spring Green} /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/waitt
-add wave -noupdate -color Magenta -radix decimal /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/outputRegisterOut
+add wave -noupdate -color Magenta -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/outputRegisterOut
 add wave -noupdate -color Gold -radix hexadecimal /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/databus
 add wave -noupdate -color Pink -radix hexadecimal /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/instruction
 add wave -noupdate -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_programCounter/q
@@ -45,9 +45,11 @@ add wave -noupdate -color Brown /computer_synth_tb/comp_computer_synth/comp_comp
 add wave -noupdate -color Brown /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/instructionRegister_oe
 add wave -noupdate -color Brown /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/ARegister_oe
 add wave -noupdate -color Brown /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/ALU_oe
-add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/carryBit
+add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/fZero
+add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/fCarry
 add wave -noupdate -radix hexadecimal /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/ARegisterOut
 add wave -noupdate -radix hexadecimal /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/BRegisterOut
+add wave -noupdate -radix binary /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/FRegisterOut
 add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/c_halt
 add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/c_memoryAddressRegister_in
 add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/c_memory_in
@@ -63,11 +65,12 @@ add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_com
 add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/c_programCounter_increment
 add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/c_programCounter_out
 add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/c_programCounter_jump
+add wave -noupdate -color Sienna /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/c_FRegister_in
 add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/counted5
 add wave -noupdate /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/resetCounter
 add wave -noupdate -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/stepCounterOut
 add wave -noupdate -color Cyan -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/step
-add wave -noupdate -color Pink -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/baseAddr
+add wave -noupdate -color Pink -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/opcode
 add wave -noupdate -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/microcodeAddr_upper
 add wave -noupdate -radix unsigned /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/microcodeAddr_lower
 add wave -noupdate -color {Slate Blue} -radix hexadecimal /computer_synth_tb/comp_computer_synth/comp_computer/comp_cpu/comp_control/controlBits_upperByte

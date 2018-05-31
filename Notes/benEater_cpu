@@ -84,23 +84,24 @@ Program examples
 		JMP 3   // loop indefinitely
 
 
-
 Command description
 
 	8 bit instruction code -> upper four bits correspond to instruction type
-	                       -> lower four bits correspond to X
+	                       -> lower four bits correspond to immediate/address
 
 
-	NOP    -  ...
-	LDA X  -  A = memory[X]
-	STA X  -  memory[X] = A
-	LDI X  -  A = X
-	ADD X  -  B = memory[X]; A = A op B
-	SUB X  -  ...
-	JMP X  -  PC = X
-
-	OUT    -  O = A
-	HLT    -  ...
+	NOP       :  do nothing
+	LDA addr  :  A = memory[ addr ]
+	STA addr  :  memory[ addr ] = A
+	LDI immed :  A = immed
+	ADD addr  :  B = memory[ addr ]; A += B
+	SUB addr  :  B = memory[ addr ]; A -= B
+	JMP addr  :  PC = addr
+	JC  addr  :  PC = addr if carry flag set
+	JZ  addr  :  PC = addr if zero flag set
+	...
+	OUT       :  output = contents of A
+	HLT       :  halt
 
 Registers
 	

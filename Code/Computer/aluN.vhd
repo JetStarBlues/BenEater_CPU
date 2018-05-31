@@ -25,16 +25,19 @@ architecture ac of aluN is
 
 	signal cIn : std_logic;
 	signal db0 : std_logic_vector( N - 1 downto 0 );
+	signal  q0 : std_logic_vector( N - 1 downto 0 );
 
 begin
+
+	q <= q0;
 
 	cIn <= subtract;
 
 	-- Adder
-	comp0 : rippleCarryAdderN port map ( da, db0, cIn, q, fCarry );
+	comp0 : rippleCarryAdderN port map ( da, db0, cIn, q0, fCarry );
 
 	-- isZero
-	comp1 : isZeroN port map ( q, fZero );
+	comp1 : isZeroN port map ( q0, fZero );
 
 	-- Ones complement
 	gen : for i in N - 1 downto 0 generate
