@@ -56,13 +56,13 @@ Program examples
 
 	OUT = M[15] + M[14] - M[13]
 
-		assembly
+	    assembly
 	            
-		LDA 15  
-		ADD 14  
-		SUB 13  
-		OUT     
-		HLT     
+	    LDA 15  
+	    ADD 14  
+	    SUB 13  
+	    OUT     
+	    HLT     
 
 	    binary
 	    instr#  immediate
