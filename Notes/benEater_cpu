@@ -146,7 +146,7 @@ CPU control signals
 
 
 Instructions
-                             Flags
+	                         Flags
 	Name     Opcode   Step   ZC     HLT MI RI RO IO II AI AO    ΣO SU BI OI CE CO J  FI
 
 	Fetch    xxxx     000    ..     0   1  0  0  0  0  0  0     0  0  0  0  0  1  0  0
