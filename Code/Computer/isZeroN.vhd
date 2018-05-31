@@ -7,27 +7,27 @@ use ieee.std_logic_1164.all;
 use work.components_pk.all;
 
 
-entity registerN is
+entity isZeroN is
 
 	port (
 
-		d              : in  std_logic_vector( N - 1 downto 0 );
-		load, clk, clr : in  std_logic;
-		q              : out std_logic_vector( N - 1 downto 0 )
+		d : in  std_logic_vector( N - 1 downto 0 );
+		q : out std_logic
 	);
 
 end entity;
 
 
-architecture ac of registerN is
+architecture ac of isZeroN is
+
+	signal q0 : std_logic;
 
 begin
 
-	gen : for i in N - 1 downto 0 generate
+	-- OrNto1
+	comp : OrNto1 port map ( d, q0 );
 
-		comp : dFlipFlop port map ( d( i ), load, clk, clr, q( i ) );
-
-	end generate;
+	q <= not q0;
 
 end architecture;
 

@@ -26,13 +26,13 @@ architecture ac of rippleCarryAdderN is
 
 begin
 
-	carry(0) <= cIn;
+	carry( 0 ) <= cIn;
 
-	cOut <= carry(N);
+	cOut <= carry( N );
 
 	gen : for i in 0 to N - 1 generate
 
-		comp : fullAdder port map ( a(i), b(i), carry(i), sum(i), carry( i + 1 ) );
+		comp : fullAdder port map ( a( i ), b( i ), carry( i ), sum( i ), carry( i + 1 ) );
 
 	end generate;
 

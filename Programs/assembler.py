@@ -125,4 +125,4 @@ def asm_to_bin( inputFile, outputFile ):
 
 
 # Temp
-asm_to_bin( 'Source/helloWorld.asm', 'Binaries/helloWorld.bin' )
+asm_to_bin( 'Source/conditionalJumpTest.asm', 'Binaries/conditionalJumpTest.bin' )

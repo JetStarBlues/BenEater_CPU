@@ -23,8 +23,8 @@ Block diagram (control signals)
             --------            ||            --------
      RI -> |        |           ||           |        | <- ΣO
      R0 -> |  RAM   | <-------> || <-------> |  ALU   | <- SU
-           |        |           ||           |        | -> CY
-            --------            ||            --------
+           |        |           ||           |        | -> FC
+            --------            ||            --------  -> FZ
                                 ||               ^
                                 ||               |
                                 ||               |
@@ -40,11 +40,16 @@ Block diagram (control signals)
                                 ||           |        | <- OI
                                 || --------> |  OUT   |
                                 ||           |        |
-                                ||            --------
-                                ||                |
-                                                  |
-                                                  v
-                                               DISPLAY
+            --------            ||            --------
+     FI -> |        |           ||                |
+     FZ -> |   FR   |           ||                |
+     FC -> |        |           ||                v
+            --------            ||             DISPLAY
+                |               ||
+                |               ||
+                v               ||
+              FLAGS             ||
+                                ||
 
 
 Program examples
@@ -140,30 +145,30 @@ CPU control signals
 
 
 Instructions
-                                  Flags
-	Name     Instruction   Step   XXZC    HLT MI RI RO IO II AI AO    ΣO SU BI OI CE CO J  FI
+                             Flags
+	Name     Opcode   Step   ZC     HLT MI RI RO IO II AI AO    ΣO SU BI OI CE CO J  FI
 
-	Fetch    xxxx          000      ..    0   1  0  0  0  0  0  0     0  0  0  0  0  1  0  0
-	         xxxx          001      ..    0   0  0  1  0  1  0  0     0  0  0  0  1  0  0  0
+	Fetch    xxxx     000    ..     0   1  0  0  0  0  0  0     0  0  0  0  0  1  0  0
+	         xxxx     001    ..     0   0  0  1  0  1  0  0     0  0  0  0  1  0  0  0
 
-	LDA      0001          010      ..    0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
-	         0001          011      ..    0   0  0  1  0  0  1  0     0  0  0  0  0  0  0  0
-	         0001          100      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	LDA      0001     010    ..     0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
+	         0001     011    ..     0   0  0  1  0  0  1  0     0  0  0  0  0  0  0  0
+	         0001     100    ..     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
-	ADD      0010          010      ..    0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
-	         0010          011      ..    0   0  0  1  0  0  0  0     0  0  1  0  0  0  0  0
-	         0010          100      ..    0   0  0  0  0  0  1  0     1  0  0  0  0  0  0  0
+	ADD      0010     010    ..     0   1  0  0  1  0  0  0     0  0  0  0  0  0  0  0
+	         0010     011    ..     0   0  0  1  0  0  0  0     0  0  1  0  0  0  0  0
+	         0010     100    ..     0   0  0  0  0  0  1  0     1  0  0  0  0  0  0  0
 
-	OUT      1110          010      ..    0   0  0  0  0  0  0  1     0  0  0  1  0  0  0  0
-	         1110          011      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         1110          100      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	OUT      1110     010    ..     0   0  0  0  0  0  0  1     0  0  0  1  0  0  0  0
+	         1110     011    ..     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1110     100    ..     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
-	HLT      1111          010      ..    1   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         1111          011      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         1111          100      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	HLT      1111     010    ..     1   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1111     011    ..     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         1111     100    ..     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
-	Smthn    xxxx          010      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
-	         xxxx          011      ..    0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	Smthn    xxxx     010    ..     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
+	         xxxx     011    ..     0   0  0  0  0  0  0  0     0  0  0  0  0  0  0  0
 
 
 Microcode
@@ -173,8 +178,10 @@ Microcode
 	Stored in EEPROM  ( 8bytes x 16 x 4 )
 
 	Address is composite
-		b3..0 = instruction code
-		b5..4 = alu flags
+		   9 = controlWord (upper 0, lower 1)  // I flipped order from official. This seems more logical
+		8..7 = alu flags ( ZC )                // ditto
+		6..3 = instruction opcode
+		2..0 = microInstruction step
 
 		ex. HLT      -> 00 1111 -> 15
 		    HLT & C  -> 01 1111 -> 31
@@ -182,24 +189,24 @@ Microcode
 		    HLT & ZC -> 11 1111 -> 63
 
 
-	Name    addr  byte1         byte2         byte3         byte4         byte5         byte6         byte7         byte8
+	Name    Opcode  byte1         byte2         byte3         byte4         byte5         byte6         byte7         byte8
   
-	NOP     0     CO|MI         RO|II|CE      x             x             x             x             x             x
-	LDA     1     CO|MI         RO|II|CE      IO|MI         RO|AI         0             0             0             0
-	STA     2     CO|MI         RO|II|CE      IO|MI         AO|RI         0             0             0             0
-	LDI     3     CO|MI         RO|II|CE      IO|AI         0             0             0             0             0
-	ADD     4     CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|FI      0             0             0
-	SUB     5     CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|SU|FI   0             0             0
-	JMP     6     CO|MI         RO|II|CE      IO|J          0             0             0             0             0
-	*JC     7     CO|MI         RO|II|CE      0             0             0             0             0             0
-	*JZ     8     CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     9     CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     10    CO|MI         RO|II|CE      0             0             0             0             0             0
-	xxx     11    CO|MI         RO|II|CE      0             0             0             0             0             0
-	**ADI   12    CO|MI         RO|II|CE      IO|BI         ΣO|AI|FI      0             0             0             0
-	**SBI   13    CO|MI         RO|II|CE      IO|BI         ΣO|AI|SU|FI   0             0             0             0
-	OUT     14    CO|MI         RO|II|CE      AO|OI         0             0             0             0             0
-	HLT     15    CO|MI         RO|II|CE      HLT           0             0             0             0             0
+	NOP     0       CO|MI         RO|II|CE      x             x             x             x             x             x
+	LDA     1       CO|MI         RO|II|CE      IO|MI         RO|AI         0             0             0             0
+	STA     2       CO|MI         RO|II|CE      IO|MI         AO|RI         0             0             0             0
+	LDI     3       CO|MI         RO|II|CE      IO|AI         0             0             0             0             0
+	ADD     4       CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|FI      0             0             0
+	SUB     5       CO|MI         RO|II|CE      IO|MI         RO|BI         ΣO|AI|SU|FI   0             0             0
+	JMP     6       CO|MI         RO|II|CE      IO|J          0             0             0             0             0
+	*JC     7       CO|MI         RO|II|CE      0             0             0             0             0             0
+	*JZ     8       CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     9       CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     10      CO|MI         RO|II|CE      0             0             0             0             0             0
+	xxx     11      CO|MI         RO|II|CE      0             0             0             0             0             0
+	**ADI   12      CO|MI         RO|II|CE      IO|BI         ΣO|AI|FI      0             0             0             0
+	**SBI   13      CO|MI         RO|II|CE      IO|BI         ΣO|AI|SU|FI   0             0             0             0
+	OUT     14      CO|MI         RO|II|CE      AO|OI         0             0             0             0             0
+	HLT     15      CO|MI         RO|II|CE      HLT           0             0             0             0             0
 
 
 	* Vary depending on flag status

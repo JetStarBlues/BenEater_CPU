@@ -7,28 +7,33 @@ use ieee.std_logic_1164.all;
 use work.components_pk.all;
 
 
-entity bufferN is
+entity orNto1 is
 
 	port (
 
-		d  : in  std_logic_vector( N - 1 downto 0 );
-		oe : in  std_logic;
-		q  : out std_logic_vector( N - 1 downto 0 )
+		d : in  std_logic_vector( N - 1 downto 0 );
+		q : out std_logic
 	);
-
+	
 end entity;
 
 
-architecture ac of bufferN is
+architecture ac of orNto1 is
+	
+	signal x : std_logic_vector( N - 2 downto 0 );
 
 begin
 
-	gen : for i in N - 1 downto 0 generate
+	x( N - 2 ) <= d( N - 1 );
 
-		comp : bufferr port map ( d( i ), oe, q( i ) );
+	gen : for i in N - 2 downto 1 generate
+
+		x( i - 1 ) <= d( i ) or x( i );
 
 	end generate;
 
+	q <= d( 0 ) or x( 0 );
+	
 end architecture;
 
 

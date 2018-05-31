@@ -25,7 +25,7 @@ begin
 
 	gen : for i in N - 1 downto 0 generate
 
-		comp : mux2to1 port map( d1(i), d0(i), s, q(i) );
+		comp : mux2to1 port map( d1( i ), d0( i ), s, q( i ) );
 
 	end generate;
 	

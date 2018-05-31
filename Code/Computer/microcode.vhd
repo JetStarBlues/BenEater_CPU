@@ -14,10 +14,10 @@ entity microcode is
 
 	port (
 
-		addr_one : in  std_logic_vector( N - 1 downto 0 );
-		addr_two : in  std_logic_vector( N - 1 downto 0 );
-		q_one    : out std_logic_vector( N - 1 downto 0 );
-		q_two    : out std_logic_vector( N - 1 downto 0 )
+		addr_one : in  std_logic_vector( 9 downto 0 );
+		addr_two : in  std_logic_vector( 9 downto 0 );
+		q_one    : out std_logic_vector( 7 downto 0 );
+		q_two    : out std_logic_vector( 7 downto 0 )
 	);
 
 end entity;
@@ -25,7 +25,7 @@ end entity;
 
 architecture ac of microcode is
 
-	type rom_type is array( 0 to 1024 ) of std_logic_vector( 7 downto 0 );
+	type rom_type is array( 0 to 1023 ) of std_logic_vector( 7 downto 0 );
 	
 	constant rom : rom_type := (
 

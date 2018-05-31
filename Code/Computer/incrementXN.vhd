@@ -31,7 +31,7 @@ begin
 
 	q( N - 1 downto X ) <= ( others => '0' );  -- drive unused low
 
-	carry(0) <= '1';  -- add one
+	carry( 0 ) <= '1';  -- add one
 
 	gen : for i in 0 to X - 1 generate
 

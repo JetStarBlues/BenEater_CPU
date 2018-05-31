@@ -11,8 +11,8 @@ package components_pk is
 
 	--- Configure ---
 
-	constant N : integer := 8;  -- number of bits
-	constant memorySize : integer := 256;  -- size in words
+	constant N                 : integer := 8;    -- number of bits
+	constant memorySize        : integer := 256;  -- size in words
 	constant programMemorySize : integer := 256;  -- size in words
 
 
@@ -62,6 +62,15 @@ package components_pk is
 			q      : out std_logic_vector( N - 1 downto 0 )
 		);
 	end component;
+
+
+	component orNto1 is
+		port (
+			d : in  std_logic_vector( N - 1 downto 0 );
+			q : out std_logic
+		);
+	end component;
+
 
 	component divFreqBy2 is
 		port (
@@ -157,10 +166,10 @@ package components_pk is
 
 	component microcode is
 		port (
-			addr_one : in  std_logic_vector( N - 1 downto 0 );
-			addr_two : in  std_logic_vector( N - 1 downto 0 );
-			q_one    : out std_logic_vector( N - 1 downto 0 );
-			q_two    : out std_logic_vector( N - 1 downto 0 )
+			addr_one : in  std_logic_vector( 9 downto 0 );
+			addr_two : in  std_logic_vector( 9 downto 0 );
+			q_one    : out std_logic_vector( 7 downto 0 );
+			q_two    : out std_logic_vector( 7 downto 0 )
 		);
 	end component;
 
@@ -177,6 +186,14 @@ package components_pk is
 
 
 	--- Arithmetic ---
+
+	component isZeroN is
+		port (
+			d : in  std_logic_vector( N - 1 downto 0 );
+			q : out std_logic
+		);
+	end component;
+
 
 	component halfAdder is
 		port (
@@ -209,7 +226,8 @@ package components_pk is
 			da, db   : in  std_logic_vector( N - 1 downto 0 );
 			subtract : in  std_logic;
 			q        : out std_logic_vector( N - 1 downto 0 );
-			cOut     : out std_logic
+			fZero    : out std_logic;
+			fCarry   : out std_logic
 		);
 	end component;
 
@@ -220,7 +238,8 @@ package components_pk is
 			da, db     : in    std_logic_vector( N - 1 downto 0 );
 			subtract   : in    std_logic;
 			out_enable : in    std_logic;
-			cOut       : out   std_logic
+			fZero      : out   std_logic;
+			fCarry     : out   std_logic
 		);
 	end component;
 
@@ -267,7 +286,7 @@ package components_pk is
 		port (
 			instruction : in std_logic_vector( N - 1 downto 0 );
 			clk, clr    : in std_logic;
-			carryBit    : in std_logic;
+			flags       : in std_logic_vector( N - 1 downto 0 );
 
 			halt                     : out std_logic;
 			memoryAddressReg_in      : out std_logic;
@@ -283,7 +302,8 @@ package components_pk is
 			outputRegister_in        : out std_logic;
 			programCounter_increment : out std_logic;
 			programCounter_out       : out std_logic;
-			programCounter_jump      : out std_logic
+			programCounter_jump      : out std_logic;
+			FRegister_in             : out std_logic
 		);
 	end component;
 
