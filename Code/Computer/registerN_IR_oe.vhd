@@ -2,13 +2,12 @@
 -- Redistribution and use of this code in source and binary forms
 -- must retain the above attribution notice and this condition.
 
+-- Instruction register only dumps lower nibble
+--  corresponding to immediate onto bus (for LDI to work)
+
 library ieee;
 use ieee.std_logic_1164.all;
 use work.components_pk.all;
-
-
--- Instruction register only dumps lower nibble onto bus
---  IIIIDDDD encoding of Ben Eater computer
 
 
 entity registerN_IR_oe is
@@ -34,7 +33,7 @@ begin
 	q <= q0( 7 downto 4 ) & zero( 3 downto 0 );
 
 	-- Lower nibble, immediate
-	q1 <= zero( N - 1 downto 4 ) & q0( 3 downto 0 );
+	q1 <= zero( 7 downto 4 ) & q0( 3 downto 0 );
 
 	comp0 : registerN port map ( databus, load, clk, clr, q0 );
 
