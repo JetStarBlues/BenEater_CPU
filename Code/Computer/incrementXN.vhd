@@ -2,6 +2,10 @@
 -- Redistribution and use of this code in source and binary forms
 -- must retain the above attribution notice and this condition.
 
+-- TODO:
+--  Currently can count max (N-1) bits. Re 'q( N - 1 downto X )'
+--  Find a way to improve, so that can count max N bits (i.e. X can be N)
+
 library ieee;
 use ieee.std_logic_1164.all;
 use work.components_pk.all;
@@ -35,7 +39,7 @@ begin
 
 	gen : for i in 0 to X - 1 generate
 
-		comp : halfAdder port map ( d(i), carry(i), q(i), carry( i + 1 ) );
+		comp : halfAdder port map ( d( i ), carry( i ), q( i ), carry( i + 1 ) );
 
 	end generate;
 

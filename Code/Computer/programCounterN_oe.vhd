@@ -27,7 +27,7 @@ architecture ac of programCounterN_oe is
 begin
 
 	comp0 : counterXN
-	           generic map ( N )
+	           generic map ( N - 1 )  -- (N-1) bit counter
 	           port map    ( databus, load, clk, clr, increment, q );
 
 	comp1 : bufferN port map ( q, out_enable, databus );

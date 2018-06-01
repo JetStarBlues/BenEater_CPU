@@ -31,7 +31,7 @@ architecture ac of registerN_IR_oe is
 begin
 
 	-- Upper nibble, instruction
-	q <= zero( N - 1 downto 8 ) & q0( 7 downto 4 ) & zero( 3 downto 0 );
+	q <= q0( 7 downto 4 ) & zero( 3 downto 0 );
 
 	-- Lower nibble, immediate
 	q1 <= zero( N - 1 downto 4 ) & q0( 3 downto 0 );
